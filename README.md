@@ -4,7 +4,7 @@
 
 PESQUISA DE MERCADO ------------> https://www.researchgate.net/publication/404704592_ANDRAGOVBR_-_BIGDATA_INTELIGENCIA_ANALITICA_UNIVERSIDADE_CIDADE_VERDE_by_KAUE_CAIRES_DOS_SANTOS_SOUZA
 
-ACESSE A VERSÃO TRIAL AQUI -----> 
+ACESSE A VERSÃO TRIAL AQUI -----> https://andragovbr.vercel.app
 
 <img width="1008" height="672" alt="image" src="https://github.com/user-attachments/assets/a5aaa2e4-9892-40ed-a470-ef205a1cba33" />
 
