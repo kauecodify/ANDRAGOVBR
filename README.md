@@ -1,4 +1,3 @@
-<img width="200" height="200" alt="bra" src="https://github.com/user-attachments/assets/3a9a4cbb-cba1-451d-9d17-caf6e6d526b9" />
 
 # ANDRAGOVBR
 
