@@ -2,11 +2,16 @@
 <html lang="pt-BR">
 
 <head>
+     
   <meta charset="UTF-8">
+     
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AndragovBr - Plataforma de Aprendizagem Gamificada</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+      <title>AndragovBr - Plataforma de Aprendizagem Gamificada</title>
+      <!-- Biblioteca para gerar PDF -->
+     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+      <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&display=swap');
 
     :root {
       --primary: #6C63FF;
@@ -21,8 +26,6 @@
       --text: #E8E8E8;
       --text-muted: #A0A0B0;
       --gold: #FFD700;
-      --silver: #C0C0C0;
-      --bronze: #CD7F32;
       --glow-primary: rgba(108, 99, 255, 0.4);
       --glow-success: rgba(0, 200, 83, 0.4);
     }
@@ -41,7 +44,7 @@
       overflow-x: hidden;
     }
 
-    /* PARTICLES BACKGROUND */
+    /* PARTICLES */
     #particles-canvas {
       position: fixed;
       top: 0;
@@ -79,30 +82,6 @@
       color: var(--primary);
     }
 
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      animation: logoPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes logoPulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.1);
-      }
-    }
-
     .stats-bar {
       display: flex;
       gap: 15px;
@@ -122,22 +101,20 @@
       border: 1px solid rgba(108, 99, 255, 0.3);
     }
 
-    .stat-item .icon {
-      font-size: 1.1rem;
-    }
-
     .progress-global {
       width: 100%;
       height: 6px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       overflow: hidden;
+      position: absolute;
+      bottom: 0;
+      left: 0;
     }
 
     .progress-global-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--success));
-      border-radius: 3px;
       transition: width 0.5s ease;
       width: 0%;
     }
@@ -146,7 +123,7 @@
     .main-content {
       position: relative;
       z-index: 1;
-      padding: 80px 20px 40px;
+      padding: 100px 20px 40px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -173,7 +150,7 @@
       }
     }
 
-    /* WELCOME SCREEN */
+    /* WELCOME */
     .welcome-hero {
       text-align: center;
       padding: 40px 20px;
@@ -185,16 +162,7 @@
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
       margin-bottom: 15px;
-    }
-
-    .welcome-hero p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 30px;
-      line-height: 1.6;
     }
 
     .name-input-container {
@@ -210,17 +178,11 @@
       background: rgba(15, 52, 96, 0.5);
       color: var(--text);
       font-size: 1.1rem;
-      font-family: 'Nunito', sans-serif;
       text-align: center;
       outline: none;
-      transition: all 0.3s;
     }
 
-    .name-input-container input:focus {
-      border-color: var(--secondary);
-      box-shadow: 0 0 20px var(--glow-primary);
-    }
-
+    /* BUTTONS */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -234,7 +196,6 @@
       cursor: pointer;
       transition: all 0.3s;
       text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
     .btn-primary {
@@ -248,31 +209,21 @@
       box-shadow: 0 8px 25px var(--glow-primary);
     }
 
-    .btn-success {
-      background: linear-gradient(135deg, var(--success), #00A844);
-      color: white;
-      box-shadow: 0 4px 15px var(--glow-success);
-    }
-
-    .btn-success:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px var(--glow-success);
-    }
-
     .btn-secondary {
       background: rgba(255, 255, 255, 0.1);
       color: var(--text);
       border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
+    .btn-gold {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #1A1A2E;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     }
 
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
     }
 
     .btn-small {
@@ -281,7 +232,33 @@
       border-radius: 10px;
     }
 
-    /* LEVEL MAP */
+    /* MAP */
+    .tab-bar {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 5px;
+      border-radius: 15px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
     .level-map {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -297,29 +274,12 @@
       cursor: pointer;
       transition: all 0.3s;
       position: relative;
-      overflow: hidden;
-    }
-
-    .level-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      opacity: 0;
-      transition: opacity 0.3s;
     }
 
     .level-card:hover:not(.locked) {
       transform: translateY(-5px);
       border-color: var(--primary);
       box-shadow: 0 10px 30px rgba(108, 99, 255, 0.2);
-    }
-
-    .level-card:hover:not(.locked)::before {
-      opacity: 1;
     }
 
     .level-card.locked {
@@ -330,12 +290,6 @@
 
     .level-card.completed {
       border-color: var(--success);
-      background: linear-gradient(145deg, rgba(0, 200, 83, 0.1), var(--darker));
-    }
-
-    .level-card.completed::before {
-      background: var(--success);
-      opacity: 1;
     }
 
     .level-number {
@@ -348,42 +302,11 @@
       font-size: 1.3rem;
       font-weight: 900;
       margin-bottom: 15px;
-    }
-
-    .level-card:not(.locked) .level-number {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
-    }
-
-    .level-card.locked .level-number {
-      background: rgba(255, 255, 255, 0.1);
     }
 
     .level-card.completed .level-number {
       background: linear-gradient(135deg, var(--success), #00A844);
-    }
-
-    .level-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-
-    .level-card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .level-stars {
-      margin-top: 12px;
-      font-size: 1.2rem;
-    }
-
-    .level-stars .star {
-      color: rgba(255, 255, 255, 0.15);
-    }
-
-    .level-stars .star.earned {
-      color: var(--gold);
     }
 
     .lock-icon {
@@ -393,7 +316,7 @@
       font-size: 1.3rem;
     }
 
-    /* LESSON SCREEN */
+    /* LESSON */
     .lesson-container {
       max-width: 800px;
       margin: 0 auto;
@@ -404,7 +327,6 @@
       align-items: center;
       gap: 15px;
       margin-bottom: 25px;
-      flex-wrap: wrap;
     }
 
     .back-btn {
@@ -419,23 +341,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
-    }
-
-    .back-btn:hover {
-      border-color: var(--primary);
-      background: rgba(108, 99, 255, 0.2);
-    }
-
-    .lesson-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-
-    .lesson-progress {
-      margin-left: auto;
-      font-size: 0.9rem;
-      color: var(--text-muted);
     }
 
     .lesson-content {
@@ -450,30 +355,17 @@
     .lesson-content h2 {
       color: var(--primary);
       margin-bottom: 15px;
-      font-size: 1.3rem;
     }
 
-    .lesson-content h3 {
-      color: var(--secondary);
-      margin: 20px 0 10px;
-      font-size: 1.1rem;
-    }
-
-    .lesson-content p {
-      margin-bottom: 12px;
-      color: var(--text-muted);
-    }
-
-    .lesson-content .highlight {
+    .highlight {
       background: rgba(108, 99, 255, 0.15);
       border-left: 3px solid var(--primary);
       padding: 15px 20px;
       border-radius: 0 10px 10px 0;
       margin: 15px 0;
-      color: var(--text);
     }
 
-    .lesson-content .example {
+    .example {
       background: rgba(0, 200, 83, 0.1);
       border-left: 3px solid var(--success);
       padding: 15px 20px;
@@ -481,82 +373,38 @@
       margin: 15px 0;
     }
 
-    .lesson-content .example strong {
-      color: var(--success);
-    }
-
-    .lesson-content ul {
-      padding-left: 20px;
-      margin: 10px 0;
-    }
-
-    .lesson-content li {
-      margin-bottom: 5px;
-      color: var(--text-muted);
-    }
-
-    .lesson-content code {
-      background: rgba(108, 99, 255, 0.2);
-      padding: 2px 8px;
-      border-radius: 5px;
+    .code-block {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
+      padding: 15px;
       font-family: 'Courier New', monospace;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
+      margin: 10px 0;
+      border: 1px solid rgba(108, 99, 255, 0.2);
+    }
+
+    .code-keyword {
       color: var(--secondary);
     }
 
-    .lesson-content pre {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 15px 20px;
-      border-radius: 10px;
-      overflow-x: auto;
-      margin: 15px 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .code-string {
+      color: var(--success);
     }
 
-    .lesson-content pre code {
-      background: none;
-      padding: 0;
-      color: var(--text);
+    .code-comment {
+      color: var(--text-muted);
     }
 
-    .lesson-content .diagram {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      margin: 15px 0;
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      white-space: pre;
-      overflow-x: auto;
-    }
-
-    .lesson-content .fun-fact {
-      background: rgba(255, 179, 0, 0.1);
-      border-left: 3px solid var(--warning);
-      padding: 15px 20px;
-      border-radius: 0 10px 10px 0;
-      margin: 15px 0;
-    }
-
-    .lesson-content .fun-fact strong {
+    .code-number {
       color: var(--warning);
     }
 
-    /* EXERCISE AREA */
+    /* EXERCISE */
     .exercise-area {
       background: linear-gradient(145deg, var(--card-bg), var(--darker));
       border-radius: 20px;
       padding: 30px;
       border: 1px solid rgba(108, 99, 255, 0.2);
-      margin-bottom: 20px;
-    }
-
-    .exercise-area h3 {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      color: var(--primary);
     }
 
     .exercise-question {
@@ -576,22 +424,15 @@
       margin-bottom: 20px;
     }
 
-    .exercise-options.single-col {
-      grid-template-columns: 1fr;
-    }
-
     .option-btn {
       padding: 15px 20px;
       border: 2px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.05);
       color: var(--text);
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      text-align: center;
     }
 
     .option-btn:hover {
@@ -603,80 +444,12 @@
       border-color: var(--success);
       background: rgba(0, 200, 83, 0.2);
       color: var(--success);
-      animation: correctPulse 0.5s ease;
     }
 
     .option-btn.wrong {
       border-color: var(--danger);
       background: rgba(255, 23, 68, 0.2);
       color: var(--danger);
-      animation: shake 0.5s ease;
-    }
-
-    @keyframes correctPulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes shake {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-5px);
-      }
-
-      75% {
-        transform: translateX(5px);
-      }
-    }
-
-    .exercise-input-area {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .exercise-input {
-      width: 200px;
-      padding: 12px 20px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-      font-family: 'Nunito', sans-serif;
-      font-size: 1.1rem;
-      text-align: center;
-      outline: none;
-      transition: all 0.3s;
-    }
-
-    .exercise-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 15px var(--glow-primary);
-    }
-
-    .exercise-input.correct {
-      border-color: var(--success);
-      box-shadow: 0 0 15px var(--glow-success);
-    }
-
-    .exercise-input.wrong {
-      border-color: var(--danger);
     }
 
     .feedback {
@@ -685,7 +458,6 @@
       border-radius: 12px;
       margin-top: 15px;
       font-weight: 700;
-      font-size: 1.1rem;
       display: none;
     }
 
@@ -697,13 +469,11 @@
     .feedback.correct {
       background: rgba(0, 200, 83, 0.15);
       color: var(--success);
-      border: 1px solid rgba(0, 200, 83, 0.3);
     }
 
     .feedback.wrong {
       background: rgba(255, 23, 68, 0.15);
       color: var(--danger);
-      border: 1px solid rgba(255, 23, 68, 0.3);
     }
 
     .exercise-nav {
@@ -711,10 +481,9 @@
       justify-content: center;
       gap: 15px;
       margin-top: 20px;
-      flex-wrap: wrap;
     }
 
-    /* BADGES SCREEN */
+    /* BADGES */
     .badges-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -728,7 +497,6 @@
       background: linear-gradient(145deg, var(--card-bg), var(--darker));
       border-radius: 15px;
       border: 2px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s;
     }
 
     .badge-item.earned {
@@ -746,65 +514,7 @@
       margin-bottom: 8px;
     }
 
-    .badge-name {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .badge-item.earned .badge-name {
-      color: var(--gold);
-    }
-
-    /* CONFETTI */
-    .confetti-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      overflow: hidden;
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      top: -10px;
-      animation: confettiFall linear forwards;
-    }
-
-    @keyframes confettiFall {
-      to {
-        top: 110vh;
-        transform: rotate(720deg);
-      }
-    }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--card-bg);
-      border: 2px solid var(--success);
-      padding: 15px 30px;
-      border-radius: 15px;
-      font-weight: 700;
-      z-index: 10000;
-      transition: transform 0.4s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      text-align: center;
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* LEVEL COMPLETE MODAL */
+    /* MODAL & TOAST */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -816,7 +526,6 @@
       align-items: center;
       justify-content: center;
       z-index: 10001;
-      padding: 20px;
     }
 
     .modal-overlay.show {
@@ -832,1467 +541,786 @@
       width: 100%;
       text-align: center;
       border: 2px solid var(--success);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
-    .modal-content h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, var(--gold), var(--warning));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .modal-content .stars-display {
-      font-size: 3rem;
-      margin: 20px 0;
-    }
-
-    .modal-content .points-earned {
-      font-size: 1.3rem;
-      color: var(--gold);
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
-
-    .modal-content .btn {
-      margin: 5px;
-    }
-
-    /* XP BAR ANIMATION */
-    .xp-gain {
+    .toast {
       position: fixed;
-      top: 50%;
+      bottom: 30px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--gold);
-      pointer-events: none;
-      z-index: 9999;
-      animation: xpFloat 1.5s ease forwards;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card-bg);
+      border: 2px solid var(--success);
+      padding: 15px 30px;
+      border-radius: 15px;
+      font-weight: 700;
+      z-index: 10000;
+      transition: transform 0.4s ease;
     }
 
-    @keyframes xpFloat {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5);
-      }
-
-      50% {
-        opacity: 1;
-        transform: translate(-50%, -80%) scale(1.2);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -120%) scale(1);
-      }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
     }
 
-    /* RESPONSIVE */
+    /* CERTIFICATE STYLES (Hidden by default) */
+    #certificate-wrapper {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    .certificate-paper {
+      width: 1123px;
+      height: 794px;
+      /* A4 Landscape approx */
+      background: #fff;
+      padding: 40px;
+      border: 20px solid #FFD700;
+      position: relative;
+      text-align: center;
+      color: #333;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .cert-header {
+      font-size: 3rem;
+      color: #1A1A2E;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .cert-subheader {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .cert-body {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .cert-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 5rem;
+      color: #6C63FF;
+      margin: 20px 0;
+      display: block;
+    }
+
+    .cert-course {
+      font-weight: bold;
+      color: #1A1A2E;
+      font-size: 1.8rem;
+    }
+
+    .cert-footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      margin-top: 60px;
+    }
+
+    .cert-signature {
+      text-align: center;
+    }
+
+    .sign-line {
+      width: 200px;
+      border-top: 2px solid #333;
+      margin: 10px auto;
+    }
+
+    .sign-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: #333;
+    }
+
+    .sign-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .cert-seal {
+      width: 120px;
+      height: 120px;
+      border: 4px solid #FFD700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      font-weight: bold;
+      font-size: 1rem;
+      transform: rotate(-15deg);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+
     @media (max-width: 768px) {
-      .welcome-hero h1 {
-        font-size: 1.8rem;
-      }
-
-      .level-map {
-        grid-template-columns: 1fr;
-      }
-
       .exercise-options {
         grid-template-columns: 1fr;
       }
 
-      .lesson-content {
-        padding: 20px;
+      .welcome-hero h1 {
+        font-size: 1.8rem;
       }
-
-      .exercise-area {
-        padding: 20px;
-      }
-
-      .modal-content {
-        padding: 25px;
-      }
-
-      .header {
-        padding: 8px 15px;
-      }
-
-      .stats-bar {
-        gap: 8px;
-      }
-
-      .stat-item {
-        padding: 4px 8px;
-        font-size: 0.8rem;
-      }
-    }
-
-    /* SCROLLBAR */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--darker);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-dark);
-    }
-
-    /* TAB SYSTEM */
-    .tab-bar {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 20px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 5px;
-      border-radius: 15px;
-      overflow-x: auto;
-    }
-
-    .tab-btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      white-space: nowrap;
-      font-size: 0.85rem;
-    }
-
-    .tab-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .tab-btn:hover:not(.active) {
-      background: rgba(108, 99, 255, 0.2);
-    }
-
-    .interactive-demo {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 15px;
-      padding: 20px;
-      margin: 15px 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .interactive-demo h4 {
-      color: var(--warning);
-      margin-bottom: 10px;
-    }
-
-    .code-block {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 10px;
-      padding: 15px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      margin: 10px 0;
-      border: 1px solid rgba(108, 99, 255, 0.2);
-      overflow-x: auto;
-    }
-
-    .code-keyword {
-      color: var(--secondary);
-    }
-
-    .code-string {
-      color: var(--success);
-    }
-
-    .code-comment {
-      color: var(--text-muted);
-    }
-
-    .code-number {
-      color: var(--warning);
-    }
-
-    .code-func {
-      color: var(--primary);
-    }
-
-    .step-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin: 15px 0;
-    }
-
-    .step-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      transition: all 0.3s;
-    }
-
-    .step-dot.active {
-      background: var(--primary);
-      box-shadow: 0 0 10px var(--glow-primary);
-      transform: scale(1.3);
-    }
-
-    .step-dot.completed {
-      background: var(--success);
-    }
-
-    .timer-bar {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      margin-bottom: 15px;
-      overflow: hidden;
-    }
-
-    .timer-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
-      border-radius: 2px;
-      transition: width 0.1s linear;
-    }
-
-    .streak-display {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.9rem;
-    }
-
-    .streak-fire {
-      color: var(--warning);
     }
   </style>
 </head>
 
 <body>
 
-  <canvas id="particles-canvas"></canvas>
+      <canvas id="particles-canvas"></canvas>
 
-  <!-- HEADER -->
-  <header class="header" id="mainHeader" style="display:none;">
-    <div class="logo">
-      <div class="logo-icon">
-        <img src="logo.png" width="100" height="80" alt="Logo">
-      </div>
-    </div>
-    <span>AndragovBr</span>
-    </div>
-    <div class="stats-bar">
-      <div class="stat-item">
-        <span class="icon">⭐</span>
-        <span id="totalXP">0</span> XP
-      </div>
-      <div class="stat-item">
-        <span class="icon">🔥</span>
-        <span id="streak">0</span>
-      </div>
-      <div class="stat-item">
-        <span class="icon">🏆</span>
-        Nível <span id="playerLevel">1</span>
-      </div>
-      <button class="btn btn-primary" onclick="window.location.href='pdf.html'">
-        Acessar PDF
-      </button>
-      <div class="streak-display">
-        <span id="playerName" style="color: var(--primary); font-weight:800;"></span>
-      </div>
-    </div>
-    <div class="progress-global">
-      <div class="progress-global-fill" id="globalProgress"></div>
-    </div>
-  </header>
+      <!-- HEADER -->
+      <header class="header" id="mainHeader" style="display:none;">
+            <img src="andragov.png" height="100" width="100">
+            <!-- <div class="logo"><span> AndragovBr</span></div> -->
+            <div class="stats-bar">
+                  <div class="stat-item"><span> </span><span id="totalXP">0</span> XP</div>
+                  <div class="stat-item"><span> </span><span id="streak">0</span></div>
+                  <div class="stat-item"><span> </span>Nível <span id="playerLevel">1</span></div>
+                  <div class="stat-item"><span id="playerName" style="color: var(--primary);"></span></div>
+              </div>
+            <div class="progress-global">
+                  <div class="progress-global-fill" id="globalProgress"></div>
+              </div>
+        </header>
 
-  <!-- MAIN -->
-  <main class="main-content">
+      <!-- MAIN -->
+      <main class="main-content">
 
-    <!-- WELCOME SCREEN -->
-    <div class="screen active" id="welcomeScreen">
-      <div class="welcome-hero">
-        <h1>🚀 Bem-vindo à AndragovBr</h1>
-        <p>Uma jornada gamificada para aprender Matemática, Lógica de Programação e como funciona o mundo digital — do
-          zero ao mastery!</p>
-        <div class="name-input-container">
-          <input type="text" id="playerNameInput" placeholder="Digite seu nome para começar..." maxlength="30"
-            autocomplete="off">
-        </div>
-        <button class="btn btn-primary" onclick="startGame()" id="startBtn">
-          🎮 COMEÇAR A JORNADA
-        </button>
-      </div>
-    </div>
+            <!-- WELCOME SCREEN -->
+            <div class="screen active" id="welcomeScreen">
+                  <div class="welcome-hero">
+                        <h1> Bem-vindo à AndragovBr</h1>
+                        <p>Jornada gamificada: Matemática (Ensino Médio), Lógica e Tecnologia.</p>
+                        <div class="name-input-container">
+                              <input type="text" id="playerNameInput" placeholder="Digite seu nome..." maxlength="30">
+                          </div>
+                        <button class="btn btn-primary" onclick="startGame()"> INICIAR JORNADA</button>
+                    </div>
+              </div>
 
-    <!-- LEVEL MAP SCREEN -->
-    <div class="screen" id="mapScreen">
-      <div class="welcome-hero" style="padding: 20px 0;">
-        <h1 style="font-size: 1.8rem;">🗺️ Mapa de Aprendizagem</h1>
-        <p style="font-size: 0.95rem;">Complete cada nível para desbloquear o próximo. Ganhe estrelas e XP!</p>
-      </div>
-      <div class="tab-bar" id="categoryTabs">
-        <button class="tab-btn active" onclick="filterLevels('all')">📚 Todos</button>
-        <button class="tab-btn" onclick="filterLevels('math')">🔢 Matemática</button>
-        <button class="tab-btn" onclick="filterLevels('logic')">💻 Lógica</button>
-        <button class="tab-btn" onclick="filterLevels('tech')">🌐 Tecnologia</button>
-      </div>
-      <div class="level-map" id="levelMap"></div>
-      <div style="text-align:center; margin-top:20px;">
-        <button class="btn btn-secondary btn-small" onclick="showScreen('badgesScreen')">🏅 Ver Conquistas</button>
-      </div>
-    </div>
+            <!-- MAP SCREEN -->
+            <div class="screen" id="mapScreen">
+                  <div class="welcome-hero" style="padding: 20px 0;">
+                        <h1 style="font-size: 1.8rem;"> Mapa de Aprendizagem</h1>
+                        <p>Complete todos os níveis para receber seu Certificado Oficial.</p>
+                    </div>
+                  <div class="tab-bar">
+                        <button class="tab-btn active" onclick="filterLevels('all')"> Todos</button>
+                        <button class="tab-btn" onclick="filterLevels('math')"> Matemática</button>
+                        <button class="tab-btn" onclick="filterLevels('logic')"> Lógica</button>
+                        <button class="tab-btn" onclick="filterLevels('tech')"> Tecnologia</button>
+                    </div>
+                  <div class="level-map" id="levelMap"></div>
 
-    <!-- LESSON SCREEN -->
-    <div class="screen" id="lessonScreen">
-      <div class="lesson-container">
-        <div class="lesson-header">
-          <button class="back-btn" onclick="showScreen('mapScreen')">←</button>
-          <span class="lesson-title" id="lessonTitle"></span>
-          <span class="lesson-progress" id="lessonProgress"></span>
-        </div>
-        <div class="step-indicator" id="stepIndicator"></div>
-        <div id="lessonContent"></div>
-        <div id="exerciseArea"></div>
-        <div class="exercise-nav" id="exerciseNav"></div>
-      </div>
-    </div>
+                  <div                
+        style="text-align:center; margin-top:30px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                        <button class="btn btn-secondary btn-small" onclick="showScreen('badgesScreen')">
+          Conquistas</button>
+                        <button id="btnCertificate" class="btn btn-gold" style="display:none;"                    
+          onclick="openCertificateModal()"> Emitir Certificado</button>
+                    </div>
+              </div>
 
-    <!-- BADGES SCREEN -->
-    <div class="screen" id="badgesScreen">
-      <div class="welcome-hero" style="padding: 20px 0;">
-        <h1 style="font-size: 1.8rem;">🏅 Suas Conquistas</h1>
-        <p style="font-size: 0.95rem;">Complete níveis e desafios para desbloquear badges!</p>
-      </div>
-      <div class="badges-grid" id="badgesGrid"></div>
-      <div style="text-align:center; margin-top:20px;">
-        <button class="btn btn-secondary btn-small" onclick="showScreen('mapScreen')">← Voltar ao Mapa</button>
-      </div>
-    </div>
+            <!-- LESSON SCREEN -->
+            <div class="screen" id="lessonScreen">
+                  <div class="lesson-container">
+                        <div class="lesson-header">
+                              <button class="back-btn" onclick="showScreen('mapScreen')">←</button>
+                              <span class="lesson-title" id="lessonTitle"
+            style="font-size: 1.5rem; font-weight: 800;"></span>
+                              <span class="lesson-progress" id="lessonProgress"                        
+            style="margin-left: auto; color: var(--text-muted);"></span>
+                          </div>
+                        <div id="lessonContent"></div>
+                        <div id="exerciseArea"></div>
+                        <div class="exercise-nav" id="exerciseNav"></div>
+                    </div>
+              </div>
 
-  </main>
+            <!-- BADGES SCREEN -->
+            <div class="screen" id="badgesScreen">
+                  <div class="welcome-hero" style="padding: 20px 0;">
+                        <h1 style="font-size: 1.8rem;"> Suas Conquistas</h1>
+                    </div>
+                  <div class="badges-grid" id="badgesGrid"></div>
+                  <div style="text-align:center; margin-top:20px;">
+                        <button class="btn btn-secondary btn-small" onclick="showScreen('mapScreen')">← Voltar</button>
+                    </div>
+              </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
+        </main>
 
-  <!-- MODAL -->
-  <div class="modal-overlay" id="levelCompleteModal">
-    <div class="modal-content">
-      <h2>🎉 Nível Completo!</h2>
-      <div class="stars-display" id="modalStars"></div>
-      <div class="points-earned" id="modalPoints"></div>
-      <p id="modalMessage" style="color: var(--text-muted); margin-bottom: 20px;"></p>
-      <button class="btn btn-success" onclick="closeModal()">Continuar →</button>
-    </div>
-  </div>
+      <!-- TOAST -->
+      <div class="toast" id="toast"></div>
 
-  <!-- CONFETTI -->
-  <div class="confetti-container" id="confettiContainer"></div>
+      <!-- MODAL LEVEL COMPLETE -->
+      <div class="modal-overlay" id="levelCompleteModal">
+            <div class="modal-content">
+                  <h2 style="color: var(--gold); font-size: 2rem;"> Nível Completo!</h2>
+                  <div id="modalStars" style="font-size: 3rem; margin: 20px 0;"></div>
+                  <div id="modalPoints" style="font-size: 1.3rem; color: var(--gold); font-weight: 800;"></div>
+                  <p id="modalMessage" style="color: var(--text-muted); margin: 20px 0;"></p>
+                  <button class="btn btn-success" onclick="closeModal()">Continuar →</button>
+              </div>
+        </div>
 
+      <!-- MODAL CERTIFICATE NAME INPUT -->
+      <div class="modal-overlay" id="certNameModal">
+            <div class="modal-content">
+                  <h2 style="color: var(--gold); font-size: 1.8rem;"> Certificado Oficial</h2>
+                  <p style="color: var(--text-muted); margin-bottom: 20px;">Parabéns! Você concluiu toda a
+        jornada.<br>Digite
+                        o nome que deseja no certificado:</p>
+                  <input type="text" id="certNameInput" placeholder="Nome Completo"                
+        style="width:100%; padding:10px; margin-bottom:20px; border-radius:10px; border:1px solid #ccc; text-align:center;">
+                  <button class="btn btn-gold" onclick="generatePDF()"> Baixar PDF</button>
+                  <button class="btn btn-secondary"                
+        onclick="document.getElementById('certNameModal').classList.remove('show')"                
+        style="margin-top:10px;">Cancelar</button>
+              </div>
+        </div>
+
+      <!-- HIDDEN CERTIFICATE TEMPLATE FOR PDF GENERATION -->
+      <div id="certificate-wrapper">
+            <div class="certificate-paper" id="certificate-to-print">
+                  <div class="cert-header">Certificado de Conclusão</div>
+                  <div class="cert-subheader">AndragovBr - Plataforma de Ensino Neuroadaptativo</div>
+
+                  <div class="cert-body">
+                        Certificamos que
+                        <span class="cert-name" id="cert-final-name">Nome do Aluno</span>
+                        concluiu com êxito a jornada completa de estudos em
+                        <span class="cert-course">Matemática e Tecnologia Básica</span>
+                        demonstrando proficiência em Álgebra, Geometria, Lógica de Programação, Cybersegurança e
+        Pensamento
+                        Computacional.
+                    </div>
+
+                  <div class="cert-footer">
+                        <div class="cert-signature">
+                              <div class="sign-name">Kaue Caires</div>
+                              <div class="sign-line"></div>
+                              <div class="sign-title">Diretor Pedagógico &<br>Criador do Conteúdo</div>
+                          </div>
+
+                        <div class="cert-seal">
+                              ANDRAGOV<br>BRASIL
+                          </div>
+
+                        <div class="cert-signature">
+                              <div style="font-size: 1.2rem; font-weight:bold;" id="cert-date">21/05/2026</div>
+                              <div class="sign-line"></div>
+                              <div class="sign-title">Data de Emissão</div>
+                          </div>
+                    </div>
+              </div>
+        </div>
+
+     
   <script>
+    // ==================== DATABASE (INDEXEDDB) ====================
+    const DB_NAME = 'AndragovBrDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'userProgress';
+
+    const dbPromise = new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+        }
+      };
+      request.onsuccess = (event) => resolve(event.target.result);
+      request.onerror = (event) => reject(event.target.error);
+    });
+
+    async function saveToDB(data) {
+      const db = await dbPromise;
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.put({ id: 'currentState', ...data });
+      return tx.complete;
+    }
+
+    async function loadFromDB() {
+      const db = await dbPromise;
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const request = store.get('currentState');
+      return new Promise((resolve) => {
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => resolve(null);
+      });
+    }
+
     // ==================== GAME STATE ====================
     const GameState = {
-      playerName: '',
-      xp: 0,
-      level: 1,
-      streak: 0,
-      unlockedLevels: [0],
-      completedLevels: {},
-      badges: [],
-      totalExercises: 0,
-      correctExercises: 0
+      playerName: '', xp: 0, level: 1, streak: 0,
+      unlockedLevels: [0], completedLevels: {}, badges: [],
+      totalExercises: 0, correctExercises: 0
     };
 
-    // ==================== LEVELS DATA ====================
+    // ==================== LEVELS DATA (~50 Levels) ====================
     const levels = [
-      // LEVEL 0: ADIÇÃO
+      // --- MATEMÁTICA BÁSICA ---
       {
-        id: 0,
-        title: "Adição (+)",
-        category: "math",
-        icon: "➕",
-        description: "Aprenda a somar números e entenda o conceito de juntar quantidades.",
-        steps: [
-          {
-            type: "theory",
-            title: "O que é Adição?",
-            content: `
-          <p>A <strong>adição</strong> é uma das operações mais básicas da matemática. Ela consiste em <strong>juntar</strong> duas ou mais quantidades para obter um total.</p>
-          <div class="highlight">
-            <p>📌 <strong>Fórmula:</strong> A + B = Resultado</p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong> Se você tem 3 maçãs 🍎🍎🍎 e ganha mais 2 🍎🍎, você fica com 5 maçãs!<br>
-            <strong>3 + 2 = 5</strong>
-          </div>
-          <p>Na adição, a ordem dos números <strong>não importa</strong>: 3 + 2 é o mesmo que 2 + 3. Isso se chama <em>propriedade comutativa</em>.</p>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O símbolo "+" foi criado por matemáticos alemães no século XV. Antes disso, usavam a palavra "mais" por extenso!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 5 + 3?",
-            options: ["7", "8", "9", "6"],
-            correct: 1,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 12 + 7?",
-            options: ["18", "20", "19", "17"],
-            correct: 2,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 25 + 38?",
-            options: ["63", "53", "73", "58"],
-            correct: 0,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Maria tem 15 livros. Ela ganhou mais 9. Quantos livros ela tem agora?",
-            options: ["23", "25", "24", "22"],
-            correct: 2,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 156 + 247?",
-            options: ["403", "393", "413", "383"],
-            correct: 0,
-            xp: 20
-          }
+        id: 0, title: "Adição (+)", category: "math", icon: " ", description: "Somar quantidades.", steps: [
+          { type: "theory", title: "Adição", content: "<p>Juntar quantidades. Ex: 3 + 2 = 5.</p>" },
+          { type: "exercise", question: "5 + 3?", options: ["7", "8", "9"], correct: 1, xp: 10 },
+          { type: "exercise", question: "12 + 7?", options: ["18", "19", "20"], correct: 1, xp: 10 }
+        ]
+      },
+      {
+        id: 1, title: "Subtração (−)", category: "math", icon: " ", description: "Retirar quantidades.", requires: 0, steps: [
+          { type: "theory", title: "Subtração", content: "<p>Operação inversa da adição. Ex: 8 - 3 = 5.</p>" },
+          { type: "exercise", question: "10 - 4?", options: ["5", "6", "7"], correct: 1, xp: 10 },
+          { type: "exercise", question: "23 - 15?", options: ["7", "8", "9"], correct: 1, xp: 10 }
+        ]
+      },
+      {
+        id: 2, title: "Multiplicação (×)", category: "math", icon: " ", description: "Soma repetida.", requires: 1, steps: [
+          { type: "theory", title: "Multiplicação", content: "<p>Somar o mesmo número várias vezes. Ex: 4 × 3 = 12.</p>" },
+          { type: "exercise", question: "6 × 7?", options: ["42", "36", "48"], correct: 0, xp: 10 },
+          { type: "exercise", question: "8 × 9?", options: ["63", "72", "81"], correct: 1, xp: 10 }
+        ]
+      },
+      {
+        id: 3, title: "Divisão (÷)", category: "math", icon: " ", description: "Repartir em partes iguais.", requires: 2, steps: [
+          { type: "theory", title: "Divisão", content: "<p>Inversa da multiplicação. Ex: 12 ÷ 3 = 4.</p>" },
+          { type: "exercise", question: "24 ÷ 6?", options: ["3", "4", "5"], correct: 1, xp: 10 },
+          { type: "exercise", question: "56 ÷ 8?", options: ["6", "7", "8"], correct: 1, xp: 10 }
+        ]
+      },
+      {
+        id: 4, title: "Regra de 3", category: "math", icon: " ", description: "Proporções simples.", requires: 3, steps: [
+          { type: "theory", title: "Regra de 3", content: "<p>Método para encontrar valores proporcionais. X = (B × C) / A.</p>" },
+          { type: "exercise", question: "Se 2kg custam R$10, 5kg custam?", options: ["R$20", "R$25", "R$30"], correct: 1, xp: 15 },
+          { type: "exercise", question: "3 camisetas = R$60. 7 camisetas?", options: ["R$120", "R$140", "R$150"], correct: 1, xp: 15 }
         ]
       },
 
-      // LEVEL 1: SUBTRAÇÃO
+      // --- LÓGICA E TECNOLOGIA ---
       {
-        id: 1,
-        title: "Subtração (−)",
-        category: "math",
-        icon: "➖",
-        description: "Aprenda a subtrair e entenda o conceito de retirar quantidades.",
-        requires: 0,
-        steps: [
-          {
-            type: "theory",
-            title: "O que é Subtração?",
-            content: `
-          <p>A <strong>subtração</strong> é a operação inversa da adição. Ela consiste em <strong>retirar</strong> uma quantidade de outra.</p>
-          <div class="highlight">
-            <p>📌 <strong>Fórmula:</strong> A − B = Resultado</p>
-            <p>Onde A é o <em>minuendo</em>, B é o <em>subtraendo</em> e o resultado é a <em>diferença</em>.</p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong> Você tem 8 balas 🍬🍬🍬🍬🍬🍬🍬🍬 e come 3. Sobram 5!<br>
-            <strong>8 − 3 = 5</strong>
-          </div>
-          <p>⚠️ <strong>Atenção:</strong> Na subtração, a ordem <strong>importa</strong>! 8 − 3 = 5, mas 3 − 8 = −5 (número negativo).</p>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O símbolo "−" também surgiu na Alemanha, no século XV. Originalmente, marcava excesso ou falta em mercadorias!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 10 − 4?",
-            options: ["5", "7", "6", "8"],
-            correct: 2,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 23 − 15?",
-            options: ["7", "9", "8", "6"],
-            correct: 2,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 100 − 37?",
-            options: ["63", "73", "53", "67"],
-            correct: 0,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "João tinha R$50 e gastou R$23. Quanto sobrou?",
-            options: ["R$27", "R$37", "R$17", "R$33"],
-            correct: 0,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 500 − 267?",
-            options: ["243", "233", "223", "253"],
-            correct: 1,
-            xp: 20
-          }
+        id: 5, title: "Variáveis", category: "logic", icon: " ", description: "Caixinhas de memória.", requires: 4, steps: [
+          { type: "theory", title: "Variáveis", content: "<p>Guardam dados. Ex: let idade = 25;</p>" },
+          { type: "exercise", question: "Tipo de dado de \"Brasil\"?", options: ["Número", "String", "Boolean"], correct: 1, xp: 15 },
+          { type: "exercise", question: "Se x=10, y=3, x+y=?", options: ["13", "103", "7"], correct: 0, xp: 15 }
+        ]
+      },
+      {
+        id: 6, title: "Condicionais", category: "logic", icon: " ", description: "IF / ELSE.", requires: 5, steps: [
+          { type: "theory", title: "IF/ELSE", content: "<p>Toma decisões. Se (condição) faça isso, senão faça aquilo.</p>" },
+          { type: "exercise", question: "Se nota=7 e IF(nota>=6), executa?", options: ["Sim", "Não"], correct: 0, xp: 15 },
+          { type: "exercise", question: "Saldo=100, Preço=120. Compra?", options: ["Sim", "Não"], correct: 1, xp: 15 }
+        ]
+      },
+      {
+        id: 7, title: "Loops", category: "logic", icon: " ", description: "Repetição (FOR/WHILE).", requires: 6, steps: [
+          { type: "theory", title: "Loops", content: "<p>Repetem código. FOR para contagens fixas, WHILE para condições.</p>" },
+          { type: "exercise", question: "for(i=0; i<5; i++) executa quantas vezes?", options: ["4", "5", "6"], correct: 1, xp: 15 },
+          { type: "exercise", question: "i++ significa?", options: ["Diminui 1", "Aumenta 1"], correct: 1, xp: 15 }
         ]
       },
 
-      // LEVEL 2: MULTIPLICAÇÃO
+      // --- TECH AVANÇADA ---
       {
-        id: 2,
-        title: "Multiplicação (×)",
-        category: "math",
-        icon: "✖️",
-        description: "Aprenda a multiplicar — adição repetida de forma rápida!",
-        requires: 1,
-        steps: [
-          {
-            type: "theory",
-            title: "O que é Multiplicação?",
-            content: `
-          <p>A <strong>multiplicação</strong> é uma forma rápida de somar o mesmo número várias vezes.</p>
-          <div class="highlight">
-            <p>📌 <strong>Fórmula:</strong> A × B = Resultado</p>
-            <p>A e B são chamados de <em>fatores</em> e o resultado é o <em>produto</em>.</p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong> 4 × 3 significa somar 4 três vezes:<br>
-            4 + 4 + 4 = <strong>12</strong><br>
-            Ou somar 3 quatro vezes: 3 + 3 + 3 + 3 = <strong>12</strong>
-          </div>
-          <p>Assim como na adição, a ordem <strong>não importa</strong>: 4 × 3 = 3 × 4 = 12</p>
-          <h3>Tabuada essencial:</h3>
-          <div class="diagram">
-2 × 1 = 2    2 × 2 = 4    2 × 3 = 6    2 × 4 = 8    2 × 5 = 10
-3 × 3 = 9    3 × 4 = 12   3 × 5 = 15   3 × 6 = 18   3 × 7 = 21
-5 × 5 = 25   5 × 6 = 30   5 × 7 = 35   5 × 8 = 40   5 × 9 = 45
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 6 × 7?",
-            options: ["42", "36", "48", "35"],
-            correct: 0,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 8 × 9?",
-            options: ["63", "81", "72", "56"],
-            correct: 2,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 12 × 5?",
-            options: ["50", "55", "65", "60"],
-            correct: 3,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Uma caixa tem 24 lápis. Quantos lápis há em 6 caixas?",
-            options: ["124", "144", "134", "154"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 15 × 13?",
-            options: ["185", "195", "205", "175"],
-            correct: 1,
-            xp: 20
-          }
+        id: 8, title: "Algoritmos", category: "logic", icon: " ", description: "Receitas de bolo digitais.", requires: 7, steps: [
+          { type: "theory", title: "O que é Algoritmo?", content: "<p>Uma sequência finita de passos para resolver um problema.</p>" },
+          { type: "exercise", question: "Qual a melhor definição de algoritmo?", options: ["Hardware rápido", "Sequência de passos lógicos", "Vírus"], correct: 1, xp: 20 },
+          { type: "exercise", question: "Um algoritmo deve ter fim?", options: ["Sim, ser finito", "Não", "Depende"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 9, title: "Banco de Dados", category: "tech", icon: " ", description: "Organizando informações.", requires: 8, steps: [
+          { type: "theory", title: "Dados Estruturados", content: "<p>Bancos de dados guardam informações em tabelas. SQL é a linguagem usada.</p>" },
+          { type: "exercise", question: "Onde guardamos dados de usuários?", options: ["Processador", "Banco de Dados", "Teclado"], correct: 1, xp: 20 },
+          { type: "exercise", question: "SQL serve para:", options: ["Editar fotos", "Consultar dados", "Jogar"], correct: 1, xp: 20 }
+        ]
+      },
+      {
+        id: 10, title: "Cybersegurança", category: "tech", icon: " ", description: "Protegendo sistemas.", requires: 9, steps: [
+          { type: "theory", title: "Segurança Digital", content: "<p>Proteger dados contra acessos não autorizados. Senhas fortes são essenciais.</p>" },
+          { type: "exercise", question: "Qual senha é mais segura?", options: ["123456", "senha", "Tr0c@_Forte!"], correct: 2, xp: 20 },
+          { type: "exercise", question: "Phishing é:", options: ["Peixe", "Golpe de dados", "Antivírus"], correct: 1, xp: 20 }
+        ]
+      },
+      {
+        id: 11, title: "Cloud Computing", category: "tech", icon: " ", description: "Computação na Nuvem.", requires: 10, steps: [
+          { type: "theory", title: "A Nuvem", content: "<p>Servidores remotos acessíveis via internet (Google Drive, Dropbox).</p>" },
+          { type: "exercise", question: "Vantagem da Nuvem:", options: ["Acesso global", "HD externo", "Sem internet"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Exemplo de nuvem:", options: ["Calculadora", "Netflix", "Caderno"], correct: 1, xp: 20 }
         ]
       },
 
-      // LEVEL 3: DIVISÃO
+      // --- MATEMÁTICA ENSINO MÉDIO ---
       {
-        id: 3,
-        title: "Divisão (÷)",
-        category: "math",
-        icon: "➗",
-        description: "Aprenda a dividir — repartir quantidades em partes iguais.",
-        requires: 2,
-        steps: [
-          {
-            type: "theory",
-            title: "O que é Divisão?",
-            content: `
-          <p>A <strong>divisão</strong> é a operação inversa da multiplicação. Ela consiste em <strong>repartir</strong> uma quantidade em partes iguais.</p>
-          <div class="highlight">
-            <p>📌 <strong>Fórmula:</strong> A ÷ B = Resultado (quociente)</p>
-            <p>A é o <em>dividendo</em>, B é o <em>divisor</em>.</p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong> 12 balas divididas entre 3 amigos:<br>
-            12 ÷ 3 = <strong>4</strong> balas para cada um 🍬🍬🍬🍬
-          </div>
-          <p>⚠️ <strong>Importante:</strong> Não é possível dividir por zero! Não existe A ÷ 0.</p>
-          <h3>Relação com multiplicação:</h3>
-          <p>Se 3 × 4 = 12, então 12 ÷ 3 = 4 e 12 ÷ 4 = 3</p>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 24 ÷ 6?",
-            options: ["3", "5", "4", "6"],
-            correct: 2,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 56 ÷ 8?",
-            options: ["6", "7", "8", "9"],
-            correct: 1,
-            xp: 10
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 144 ÷ 12?",
-            options: ["14", "11", "12", "13"],
-            correct: 2,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "45 balas divididas igualmente entre 5 crianças. Quantas balas cada uma recebe?",
-            options: ["8", "10", "7", "9"],
-            correct: 3,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quanto é 255 ÷ 15?",
-            options: ["15", "18", "17", "16"],
-            correct: 2,
-            xp: 20
-          }
+        id: 12, title: "Equação 2º Grau", category: "math", icon: " ", description: "Bhaskara e Delta.", requires: 11, steps: [
+          { type: "theory", title: "Bhaskara", content: "<p>ax²+bx+c=0. Delta = b²-4ac. X = (-b ± √Δ)/2a.</p>" },
+          { type: "exercise", question: "Delta de x²-4x+4=0?", options: ["0", "4", "-4"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Raízes de x²-9=0?", options: ["3 e -3", "9 e -9"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 13, title: "Função Afim", category: "math", icon: " ", description: "f(x) = ax + b.", requires: 12, steps: [
+          { type: "theory", title: "1º Grau", content: "<p>Reta. 'a' é inclinação, 'b' onde corta o eixo Y.</p>" },
+          { type: "exercise", question: "Em f(x)=3x-2, coeficiente angular?", options: ["-2", "3"], correct: 1, xp: 20 },
+          { type: "exercise", question: "f(x)=x+5, f(4)=?", options: ["9", "20"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 14, title: "Função Quadrática", category: "math", icon: " ", description: "Vértice da Parábola.", requires: 13, steps: [
+          { type: "theory", title: "Vértice", content: "<p>Xv = -b/2a. Ponto máximo ou mínimo.</p>" },
+          { type: "exercise", question: "Xv de x²-4x?", options: ["2", "-2"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Concavidade de a>0?", options: ["Para cima", "Para baixo"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 15, title: "Logaritmos", category: "math", icon: " ", description: "Inverso da potência.", requires: 14, steps: [
+          { type: "theory", title: "Log", content: "<p>log₂(8)=3 pois 2³=8.</p>" },
+          { type: "exercise", question: "log₁₀(100)?", options: ["1", "2", "10"], correct: 1, xp: 20 },
+          { type: "exercise", question: "log₃(27)?", options: ["3", "9"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 16, title: "PA", category: "math", icon: " ", description: "Progressão Aritmética.", requires: 15, steps: [
+          { type: "theory", title: "PA", content: "<p>Soma constante. an = a1 + (n-1)r.</p>" },
+          { type: "exercise", question: "Razão de 5,10,15?", options: ["2", "5"], correct: 1, xp: 20 },
+          { type: "exercise", question: "5º termo de 1,3,5...?", options: ["9", "11"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 17, title: "PG", category: "math", icon: " ", description: "Progressão Geométrica.", requires: 16, steps: [
+          { type: "theory", title: "PG", content: "<p>Multiplicação constante. an = a1 · q^(n-1).</p>" },
+          { type: "exercise", question: "Razão de 2,4,8?", options: ["2", "4"], correct: 0, xp: 20 },
+          { type: "exercise", question: "3º termo de 3,6...?", options: ["12", "9"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 18, title: "Trigonometria", category: "math", icon: " ", description: "Seno, Cosseno, Tangente.", requires: 17, steps: [
+          { type: "theory", title: "Triângulo", content: "<p>SOH CAH TOA. Seno = Op/Hip.</p>" },
+          { type: "exercise", question: "Sen(30º)?", options: ["0.5", "0.86"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Tg(45º)?", options: ["1", "0"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 19, title: "Geometria Plana", category: "math", icon: " ", description: "Áreas.", requires: 18, steps: [
+          { type: "theory", title: "Áreas", content: "<p>Retângulo=B·h. Triângulo=B·h/2. Círculo=πr².</p>" },
+          { type: "exercise", question: "Área quadrado lado 5?", options: ["25", "20"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Área triângulo B=10, H=4?", options: ["20", "40"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 20, title: "Geometria Espacial", category: "math", icon: " ", description: "Volumes.", requires: 19, steps: [
+          { type: "theory", title: "Volume", content: "<p>Cubo=L³. Cilindro=ÁreaBase·Altura.</p>" },
+          { type: "exercise", question: "Volume cubo aresta 3?", options: ["27", "9"], correct: 0, xp: 20 },
+          { type: "exercise", question: "1m³ equivale a quantos litros?", options: ["1000", "100"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 21, title: "Análise Combinatória", category: "math", icon: " ", description: "Contagem.", requires: 20, steps: [
+          { type: "theory", title: "Contagem", content: "<p>PFC: Multiplica opções. Fatorial: 5! = 120.</p>" },
+          { type: "exercise", question: "Moeda e Dado. Combinações?", options: ["12", "8"], correct: 0, xp: 20 },
+          { type: "exercise", question: "4! ?", options: ["24", "12"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 22, title: "Probabilidade", category: "math", icon: " ", description: "Chance de eventos.", requires: 21, steps: [
+          { type: "theory", title: "Probabilidade", content: "<p>P = Favoráveis / Totais.</p>" },
+          { type: "exercise", question: "Cara na moeda?", options: ["50%", "25%"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Dado ser par?", options: ["50%", "33%"], correct: 0, xp: 20 }
+        ]
+      },
+      {
+        id: 23, title: "Estatística", category: "math", icon: " ", description: "Média, Moda, Mediana.", requires: 22, steps: [
+          { type: "theory", title: "Estatística", content: "<p>Média=soma/qtd. Moda=mais repete. Mediana=meio.</p>" },
+          { type: "exercise", question: "Média de 10,20,30?", options: ["20", "60"], correct: 0, xp: 20 },
+          { type: "exercise", question: "Moda de 1,2,2,3?", options: ["2", "1"], correct: 0, xp: 20 }
         ]
       },
 
-      // LEVEL 4: REGRA DE 3
+      // --- EXPANSÃO PARA ~50 NÍVEIS (MATH ADVANCED, CODING, NETWORKING) ---
       {
-        id: 4,
-        title: "Regra de 3",
-        category: "math",
-        icon: "📐",
-        description: "Aprenda a resolver problemas de proporção usando a regra de três simples.",
-        requires: 3,
-        steps: [
-          {
-            type: "theory",
-            title: "O que é Regra de 3?",
-            content: `
-          <p>A <strong>regra de três simples</strong> é um método para encontrar um valor desconhecido quando conhecemos três valores relacionados proporcionalmente.</p>
-          <div class="highlight">
-            <p>📌 <strong>Método:</strong></p>
-            <p>A → B<br>C → X<br><br>Então: <strong>X = (B × C) ÷ A</strong></p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong> Se 2 kg de arroz custam R$10, quanto custam 5 kg?<br><br>
-            2 kg → R$10<br>
-            5 kg → X<br><br>
-            X = (10 × 5) ÷ 2 = 50 ÷ 2 = <strong>R$25</strong>
-          </div>
-          <h3>Passo a passo:</h3>
-          <ul>
-            <li><strong>1º</strong> Identifique as grandezas proporcionais</li>
-            <li><strong>2º</strong> Monte a proporção (alinhando unidades iguais)</li>
-            <li><strong>3º</strong> Multiplique cruzado</li>
-            <li><strong>4º</strong> Divida para encontrar X</li>
-          </ul>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> A regra de três é usada desde a antiguidade! Mercadores árabes e indianos já a utilizavam há mais de 1500 anos.
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Se 3 camisetas custam R$60, quanto custam 7 camisetas?",
-            options: ["R$120", "R$140", "R$130", "R$150"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Um carro faz 12 km com 1 litro. Quantos km faz com 8 litros?",
-            options: ["84 km", "96 km", "108 km", "72 km"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Se 4 pessoas pintam uma casa em 6 dias, em quantos dias 8 pessoas pintam? (inversamente proporcional)",
-            options: ["12 dias", "4 dias", "3 dias", "2 dias"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Uma receita para 4 pessoas usa 200g de farinha. Para 10 pessoas, quanta farinha?",
-            options: ["400g", "450g", "500g", "550g"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Se 500g de queijo custam R$25, quanto custam 1,2 kg?",
-            options: ["R$55", "R$60", "R$65", "R$50"],
-            correct: 1,
-            xp: 25
-          }
+        id: 24, title: "Matrizes", category: "math", icon: "▦", description: "Organização de dados em linhas e colunas.", requires: 23, steps: [
+          { type: "theory", title: "Matrizes", content: "<p>Tabela m x n. Soma elemento a elemento.</p>" },
+          { type: "exercise", question: "Ordem de uma matriz 3x2?", options: ["3 linhas, 2 colunas", "2 linhas, 3 colunas"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Elemento a12 está na:", options: ["Linha 1, Coluna 2", "Linha 2, Coluna 1"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 25, title: "Determinantes", category: "math", icon: "❘❘", description: "Número associado a matrizes quadradas.", requires: 24, steps: [
+          { type: "theory", title: "Determinantes", content: "<p>Det de matriz 1x1 é o próprio elemento. Regra de Sarrus para 3x3.</p>" },
+          { type: "exercise", question: "Det de [2] é:", options: ["2", "0", "1"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Det nula tem valor:", options: ["0", "1", "Infinito"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 26, title: "Sistemas Lineares", category: "math", icon: " ", description: "Conjunto de equações lineares.", requires: 25, steps: [
+          { type: "theory", title: "Sistemas", content: "<p>Classificação: SPD (possível determinado), SPI, SI.</p>" },
+          { type: "exercise", question: "SPD significa:", options: ["Sistema Possível Determinado", "Sistema Impossível"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Escalonamento serve para:", options: ["Resolver sistemas", "Somar matrizes"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 27, title: "Números Complexos", category: "math", icon: "ℂ", description: "Extensão dos números reais (i² = -1).", requires: 26, steps: [
+          { type: "theory", title: "Complexos", content: "<p>Forma algébrica: z = a + bi. Parte real e imaginária.</p>" },
+          { type: "exercise", question: "i² é igual a:", options: ["-1", "1", "0"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Parte imaginária de 3+4i:", options: ["4", "3", "4i"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 28, title: "Polinômios", category: "math", icon: " ", description: "Expressões algébricas com variáveis.", requires: 27, steps: [
+          { type: "theory", title: "Polinômios", content: "<p>Grau do polinômio é o maior expoente. Raiz anula o polinômio.</p>" },
+          { type: "exercise", question: "Grau de 2x³ + x?", options: ["3", "2", "1"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Raiz de P(x) = x-2:", options: ["2", "-2", "0"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 29, title: "Análise Combinatória: Arranjo", category: "math", icon: " ", description: "Ordem importa.", requires: 28, steps: [
+          { type: "theory", title: "Arranjo", content: "<p>A ordem dos elementos faz diferença (ex: senha, pódio).</p>" },
+          { type: "exercise", question: "Senha 123 é diferente de 321?", options: ["Sim", "Não"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Fórmula de Arranjo usa:", options: ["Fatorial", "Soma"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 30, title: "Análise Combinatória: Combinação", category: "math", icon: " ", description: "Ordem NÃO importa.", requires: 29, steps: [
+          { type: "theory", title: "Combinação", content: "<p>Escolher grupos onde a ordem não muda o resultado (ex: salada de frutas).</p>" },
+          { type: "exercise", question: "Escolher 2 pessoas de 3 para uma foto (ordem não importa):", options: ["Combinação", "Arranjo"], correct: 0, xp: 25 },
+          { type: "exercise", question: "C(3,2) é igual a:", options: ["3", "6", "2"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 31, title: "Binômio de Newton", category: "math", icon: " ", description: "Expansão de (a+b)ⁿ.", requires: 30, steps: [
+          { type: "theory", title: "Newton", content: "<p>Usa coeficientes binomiais e Triângulo de Pascal.</p>" },
+          { type: "exercise", question: "(a+b)² = ?", options: ["a²+2ab+b²", "a²+b²"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Triângulo de Pascal começa com:", options: ["1", "0"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 32, title: "Limites (Cálculo)", category: "math", icon: "lim", description: "Comportamento de funções perto de um ponto.", requires: 31, steps: [
+          { type: "theory", title: "Limites", content: "<p>Estuda a tendência. Indeterminações 0/0 devem ser resolvidas.</p>" },
+          { type: "exercise", question: "Limite de constante k é:", options: ["k", "0", "Infinito"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Indeterminação comum:", options: ["0/0", "1/1"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 33, title: "Derivadas", category: "math", icon: "f'", description: "Taxa de variação instantânea.", requires: 32, steps: [
+          { type: "theory", title: "Derivadas", content: "<p>Regra da potência: (xⁿ)' = n·xⁿ⁻¹.</p>" },
+          { type: "exercise", question: "Derivada de f(x) = x²?", options: ["2x", "x", "2"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Derivada de constante?", options: ["0", "1"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 34, title: "Integrais", category: "math", icon: "∫", description: "Área sob a curva.", requires: 33, steps: [
+          { type: "theory", title: "Integrais", content: "<p>Operação inversa da derivada.</p>" },
+          { type: "exercise", question: "Integral de 2x?", options: ["x²+C", "2", "x"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Integral definida resulta em:", options: ["Um número (área)", "Uma função"], correct: 0, xp: 25 }
         ]
       },
 
-      // LEVEL 5: LÓGICA DE PROGRAMAÇÃO - VARIÁVEIS E TIPOS
+      // --- PROGRAMÇÃO AVANÇADA ---
       {
-        id: 5,
-        title: "Variáveis e Tipos",
-        category: "logic",
-        icon: "📦",
-        description: "Aprenda o que são variáveis — as caixinhas de memória do computador.",
-        requires: 4,
-        steps: [
-          {
-            type: "theory",
-            title: "O que são Variáveis?",
-            content: `
-          <p>Uma <strong>variável</strong> é como uma <strong>caixinha</strong> na memória do computador que guarda informações. Cada caixinha tem um <strong>nome</strong> e um <strong>valor</strong>.</p>
-          <div class="highlight">
-            <p>📌 <strong>Analogia:</strong> Pense numa variável como um pote com etiqueta. A etiqueta é o nome, e o conteúdo é o valor.</p>
-          </div>
-          <div class="example">
-            <strong>Exemplo:</strong><br>
-            <code>idade = 25</code> → Um pote chamado "idade" com valor 25<br>
-            <code>nome = "Maria"</code> → Um pote chamado "nome" com valor "Maria"
-          </div>
-          <h3>Tipos de dados:</h3>
-          <ul>
-            <li><strong>Número (int/float):</strong> 25, 3.14, -10</li>
-            <li><strong>Texto (string):</strong> "Olá", "Maria"</li>
-            <li><strong>Lógico (boolean):</strong> verdadeiro (true) ou falso (false)</li>
-          </ul>
-          <div class="code-block">
-<span class="code-comment">// Exemplo em JavaScript</span>
-<span class="code-keyword">let</span> nome = <span class="code-string">"AndragovBr"</span>;
-<span class="code-keyword">let</span> idade = <span class="code-number">80</span>;
-<span class="code-keyword">let</span> ativo = <span class="code-keyword">true</span>;
-
-console.<span class="code-func">log</span>(nome); <span class="code-comment">// Mostra: AndragovBr</span>
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Qual tipo de dado é o valor \"Brasil\"?",
-            options: ["Número", "String (texto)", "Boolean", "Lista"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Se x = 10 e y = 3, quanto vale x + y?",
-            options: ["103", "13", "7", "30"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual o resultado de: nome = \"Ana\" + \" \" + \"Paula\"?",
-            options: ["AnaPaula", "Ana Paula", "Erro", "Ana, Paula"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Se temperatura = 38 e febre = temperatura > 37, qual o valor de febre?",
-            options: ["false", "38", "true", "37"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Qual tipo de dado melhor representa: \"Está chovendo? (sim/não)\"?",
-            options: ["String", "Número", "Boolean", "Lista"],
-            correct: 2,
-            xp: 20
-          }
+        id: 35, title: "POO: Classes", category: "logic", icon: " ", description: "Moldes para objetos.", requires: 34, steps: [
+          { type: "theory", title: "Classes", content: "<p>Definem atributos e métodos. Objeto é a instância.</p>" },
+          { type: "exercise", question: "Objeto é:", options: ["Instância da classe", "A classe em si"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Atributo é:", options: ["Característica", "Ação"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 6: CONDICIONAIS (IF/ELSE)
       {
-        id: 6,
-        title: "Condicionais (SE/SENÃO)",
-        category: "logic",
-        icon: "🔀",
-        description: "Aprenda a fazer o computador tomar decisões com IF/ELSE.",
-        requires: 5,
-        steps: [
-          {
-            type: "theory",
-            title: "Tomando Decisões com IF/ELSE",
-            content: `
-          <p>As <strong>condicionais</strong> permitem que o programa tome decisões baseadas em condições. É como o computador "pensar": <em>se algo é verdade, faça isto; senão, faça aquilo</em>.</p>
-          <div class="highlight">
-            <p>📌 <strong>Estrutura:</strong></p>
-            <p>SE (condição for verdadeira) → faça algo<br>
-            SENÃO → faça outra coisa</p>
-          </div>
-          <div class="code-block">
-<span class="code-comment">// Exemplo: verificar idade</span>
-<span class="code-keyword">if</span> (idade >= <span class="code-number">18</span>) {
-    console.<span class="code-func">log</span>(<span class="code-string">"Maior de idade"</span>);
-} <span class="code-keyword">else</span> {
-    console.<span class="code-func">log</span>(<span class="code-string">"Menor de idade"</span>);
-}
-          </div>
-          <div class="example">
-            <strong>Analogia da vida real:</strong><br>
-            SE está chovendo → Leve guarda-chuva ☂️<br>
-            SENÃO → Use boné 🧢
-          </div>
-          <h3>Operadores de comparação:</h3>
-          <ul>
-            <li><code>==</code> igual a</li>
-            <li><code>!=</code> diferente de</li>
-            <li><code>></code> maior que</li>
-            <li><code><</code> menor que</li>
-            <li><code>>=</code> maior ou igual</li>
-            <li><code><=</code> menor ou igual</li>
-          </ul>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Se nota = 7 e a condição é: if (nota >= 6), o que acontece?",
-            options: ["Executa o bloco do IF (verdadeiro)", "Executa o bloco do ELSE", "Dá erro", "Não faz nada"],
-            correct: 0,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Se temperatura = 30 e a condição é: if (temperatura > 35), o bloco IF executa?",
-            options: ["Sim", "Não", "Depende", "Dá erro"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual código verifica se uma pessoa tem entre 18 e 65 anos?",
-            options: [
-              "if (idade >= 18 && idade <= 65)",
-              "if (idade > 18 || idade < 65)",
-              "if (idade = 18 e 65)",
-              "if (idade >= 18 AND <= 65)"
-            ],
-            correct: 0,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Se saldo = 100 e preco = 120. if (saldo >= preco) { compra } else { nega }. O que acontece?",
-            options: ["Compra", "Nega", "Erro", "Ambos"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Quantos blocos ELSE podem ter em um único IF/ELSE?",
-            options: ["1", "2", "Ilimitados", "0"],
-            correct: 0,
-            xp: 25
-          }
+        id: 36, title: "POO: Herança", category: "logic", icon: " ", description: "Reutilização de código.", requires: 35, steps: [
+          { type: "theory", title: "Herança", content: "<p>Classe filha herda características da mãe.</p>" },
+          { type: "exercise", question: "Evita:", options: ["Repetição de código", "Execução"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Classe que herda é:", options: ["Filha", "Mãe"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 7: LOOPS (REPETIÇÃO)
       {
-        id: 7,
-        title: "Loops (Repetição)",
-        category: "logic",
-        icon: "🔄",
-        description: "Aprenda a repetir ações com FOR e WHILE — o poder da automação!",
-        requires: 6,
-        steps: [
-          {
-            type: "theory",
-            title: "Repetindo Ações com Loops",
-            content: `
-          <p>Os <strong>loops</strong> (laços de repetição) permitem executar o mesmo código várias vezes sem precisar reescrevê-lo. É como dizer: <em>"faça isso 100 vezes"</em> em vez de escrever 100 linhas.</p>
-          <div class="highlight">
-            <p>📌 <strong>Tipos principais:</strong></p>
-            <p><strong>FOR:</strong> Repete um número definido de vezes<br>
-            <strong>WHILE:</strong> Repete enquanto uma condição for verdadeira</p>
-          </div>
-          <div class="code-block">
-<span class="code-comment">// FOR: contar de 1 a 5</span>
-<span class="code-keyword">for</span> (<span class="code-keyword">let</span> i = <span class="code-number">1</span>; i <= <span class="code-number">5</span>; i++) {
-    console.<span class="code-func">log</span>(<span class="code-string">"Número: "</span> + i);
-}
-<span class="code-comment">// Resultado: 1, 2, 3, 4, 5</span>
-
-<span class="code-comment">// WHILE: enquanto contador < 3</span>
-<span class="code-keyword">let</span> contador = <span class="code-number">0</span>;
-<span class="code-keyword">while</span> (contador < <span class="code-number">3</span>) {
-    console.<span class="code-func">log</span>(<span class="code-string">"Contando: "</span> + contador);
-    contador++;
-}
-          </div>
-          <div class="example">
-            <strong>Analogia:</strong> Um loop FOR é como dizer "dê 10 voltas na quadra". Um WHILE é como "corra enquanto não estiver cansado".
-          </div>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> Um computador pode executar milhões de iterações por segundo. Um loop que conta até 1 milhão leva menos de 1 milissegundo!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "O loop 'for (let i=0; i<5; i++)' executa quantas vezes?",
-            options: ["4", "5", "6", "Infinitas"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "O que faz 'i++' em um loop?",
-            options: ["Diminui i em 1", "Aumenta i em 1", "Multiplica i por 2", "Zera i"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual loop é melhor quando NÃO sabemos quantas vezes repetir?",
-            options: ["FOR", "WHILE", "Nenhum", "Ambos são iguais"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Qual o resultado de: for(let i=1; i<=3; i++) { soma += i } (soma começa em 0)?",
-            options: ["3", "5", "6", "10"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "O que acontece se a condição do WHILE nunca se tornar falsa?",
-            options: ["O programa para", "Loop infinito", "Erro de sintaxe", "Nada"],
-            correct: 1,
-            xp: 25
-          }
+        id: 37, title: "POO: Polimorfismo", category: "logic", icon: " ", description: "Muitas formas.", requires: 36, steps: [
+          { type: "theory", title: "Polimorfismo", content: "<p>Mesmo método, comportamentos diferentes em classes diferentes.</p>" },
+          { type: "exercise", question: "Polimorfismo significa:", options: ["Muitas formas", "Uma forma"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Exemplo: Método falar() em Cachorro e Gato.", options: ["Polimorfismo", "Herança"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 8: HISTÓRIA DA INFORMÁTICA
       {
-        id: 8,
-        title: "História da Informática",
-        category: "tech",
-        icon: "🖥️",
-        description: "Descubra como nasceu a computação — do ábaco ao smartphone.",
-        requires: 7,
-        steps: [
-          {
-            type: "theory",
-            title: "A História da Computação",
-            content: `
-          <p>A computação tem uma história fascinante que começa muito antes dos computadores eletrônicos!</p>
-          <h3>📜 Linha do Tempo:</h3>
-          <ul>
-            <li><strong>~2500 a.C.</strong> — O <strong>Ábaco</strong>: primeira "máquina" de calcular, usada na Mesopotâmia</li>
-            <li><strong>1642</strong> — <strong>Blaise Pascal</strong> inventa a Pascalina, primeira calculadora mecânica</li>
-            <li><strong>1837</strong> — <strong>Charles Babbage</strong> projeta a "Máquina Analítica" (o primeiro computador conceitual)</li>
-            <li><strong>1843</strong> — <strong>Ada Lovelace</strong> escreve o primeiro algoritmo — é considerada a primeira programadora da história!</li>
-            <li><strong>1936</strong> — <strong>Alan Turing</strong> cria o conceito de "Máquina de Turing", base teórica de toda computação moderna</li>
-            <li><strong>1945</strong> — <strong>ENIAC</strong>: primeiro computador eletrônico de grande escala (pesava 27 toneladas!)</li>
-            <li><strong>1947</strong> — Invenção do <strong>transistor</strong>, que substituiu válvulas e miniaturizou os computadores</li>
-            <li><strong>1969</strong> — Nasce a <strong>ARPANET</strong>, precursora da Internet</li>
-            <li><strong>1976</strong> — <strong>Apple I</strong>: Steve Jobs e Steve Wozniak criam o primeiro Apple num garagem</li>
-            <li><strong>1981</strong> — <strong>IBM PC</strong>: populariza os computadores pessoais</li>
-            <li><strong>1989</strong> — <strong>Tim Berners-Lee</strong> inventa a World Wide Web (WWW)</li>
-            <li><strong>1991</strong> — <strong>Linux</strong> criado por Linus Torvalds</li>
-            <li><strong>2007</strong> — <strong>iPhone</strong>: revoluciona a computação móvel</li>
-          </ul>
-          <div class="diagram">
-Ábaco → Pascalina → Máquina Analítica → ENIAC → Transistor
-  → Microprocessador → PC → Internet → WWW → Smartphone → IA
-          </div>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O ENIAC tinha 17.468 válvulas e ocupava uma sala inteira. Hoje, seu poder de processamento cabe num chip menor que uma unha!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Quem é considerada a primeira programadora da história?",
-            options: ["Marie Curie", "Ada Lovelace", "Grace Hopper", "Alan Turing"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "O que era o ENIAC?",
-            options: ["Um videogame", "O primeiro computador eletrônico de grande escala", "Uma calculadora", "Um satélite"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quem inventou a World Wide Web (WWW)?",
-            options: ["Steve Jobs", "Bill Gates", "Tim Berners-Lee", "Alan Turing"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Qual invenção permitiu miniaturizar os computadores?",
-            options: ["O ábaco", "O transistor", "A válvula", "O monitor"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Em que década nasceu a ARPANET (precursora da Internet)?",
-            options: ["1950s", "1960s", "1970s", "1980s"],
-            correct: 1,
-            xp: 25
-          }
+        id: 38, title: "Estrutura de Dados: Pilha", category: "logic", icon: " ", description: "LIFO (Last In, First Out).", requires: 37, steps: [
+          { type: "theory", title: "Pilha", content: "<p>O último que entra é o primeiro que sai.</p>" },
+          { type: "exercise", question: "Sigla em inglês:", options: ["LIFO", "FIFO"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Operação de adicionar:", options: ["Push", "Pop"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 9: SISTEMA OPERACIONAL
       {
-        id: 9,
-        title: "Sistemas Operacionais",
-        category: "tech",
-        icon: "⚙️",
-        description: "Entenda o que é um SO — o cérebro invisível do seu dispositivo.",
-        requires: 8,
-        steps: [
-          {
-            type: "theory",
-            title: "O que é um Sistema Operacional?",
-            content: `
-          <p>O <strong>Sistema Operacional (SO)</strong> é o software mais importante de qualquer computador ou celular. Ele é o <strong>intermediário</strong> entre você, os aplicativos e o hardware.</p>
-          <div class="highlight">
-            <p>📌 <strong>Analogia:</strong> O SO é como o <strong>gerente de um restaurante</strong>: ele recebe os pedidos (seus cliques), distribui tarefas para os cozinheiros (processador), organiza a despensa (memória) e garante que tudo funcione em harmonia.</p>
-          </div>
-          <h3>Funções principais do SO:</h3>
-          <ul>
-            <li><strong>Gerenciar hardware:</strong> processador, memória, disco, tela, teclado</li>
-            <li><strong>Gerenciar arquivos:</strong> criar, salvar, organizar pastas e documentos</li>
-            <li><strong>Executar programas:</strong> abrir aplicativos e jogos</li>
-            <li><strong>Interface:</strong> oferecer uma forma de você interagir (tela, botões, menus)</li>
-            <li><strong>Segurança:</strong> proteger contra vírus e acessos não autorizados</li>
-          </ul>
-          <h3>Exemplos populares:</h3>
-          <div class="diagram">
-💻 Computadores:  Windows  |  macOS  |  Linux
-📱 Celulares:     Android  |  iOS
-🎮 Consoles:      PlayStation OS  |  Xbox OS
-          </div>
-          <h3>Como funciona por dentro:</h3>
-          <div class="code-block">
-<span class="code-comment">// Simplificando o fluxo:</span>
-Você clica num ícone
-  → SO recebe o clique
-    → SO encontra o programa no disco
-      → SO carrega o programa na memória RAM
-        → SO pede ao processador (CPU) que execute
-          → O programa aparece na tela!
-          </div>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O Linux (criado em 1991) roda em 96.3% dos servidores do mundo, em todos os supercomputadores TOP500, e é a base do Android!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Qual é a principal função de um Sistema Operacional?",
-            options: ["Navegar na internet", "Gerenciar hardware e software", "Editar fotos", "Jogar games"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual SO é usado na maioria dos celulares?",
-            options: ["Windows", "macOS", "Android", "Linux"],
-            correct: 2,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Quando você clica num app, qual componente o carrega na memória?",
-            options: ["O processador", "O sistema operacional", "A internet", "O monitor"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "O Linux é usado em qual desses?",
-            options: ["Apenas PCs", "Apenas celulares", "Servidores, supercomputadores e Android", "Apenas videogames"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Sem um sistema operacional, o computador...",
-            options: ["Funciona normalmente", "Liga mas não executa programas", "Liga mais rápido", "Não liga"],
-            correct: 1,
-            xp: 25
-          }
+        id: 39, title: "Estrutura de Dados: Fila", category: "logic", icon: " ", description: "FIFO (First In, First Out).", requires: 38, steps: [
+          { type: "theory", title: "Fila", content: "<p>O primeiro que entra é o primeiro que sai.</p>" },
+          { type: "exercise", question: "Sigla em inglês:", options: ["FIFO", "LIFO"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Exemplo real:", options: ["Fila de banco", "Pilha de pratos"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 10: INTERNET, HTTP, WiFi, CABOS
       {
-        id: 10,
-        title: "Internet: WiFi, Cabos e HTTP",
-        category: "tech",
-        icon: "🌐",
-        description: "Descubra como a internet funciona — do cabo submarino ao seu WiFi.",
-        requires: 9,
-        steps: [
-          {
-            type: "theory",
-            title: "Como a Internet Chega Até Você",
-            content: `
-          <p>A internet parece "mágica", mas é uma rede física gigantesca de cabos, roteadores e servidores. Vamos entender o caminho completo!</p>
-          <h3>🔌 O Caminho dos Dados:</h3>
-          <div class="diagram">
-🌍 Servidor (ex: Google)
-  ↓ (dados viajam por cabos de fibra óptica submarinos)
-🏢 Provedor de Internet (ISP)
-  ↓ (cabos de fibra óptica urbanos)
-📡 Roteador da sua rua
-  ↓ (cabo coaxial ou fibra até sua casa)
-📶 Roteador WiFi da sua casa
-  ↓ (ondas de rádio WiFi)
-📱 Seu celular/computador
-          </div>
-          <h3>📶 WiFi — Como funciona?</h3>
-          <p>O WiFi usa <strong>ondas de rádio</strong> (frequências de 2.4 GHz ou 5 GHz) para transmitir dados sem fio entre o roteador e seus dispositivos. Mas atenção: <strong>o WiFi não é a internet</strong> — ele é apenas a "ponte sem fio" entre o roteador e seu aparelho.</p>
-          <h3>🔗 HTTP — A Linguagem da Web</h3>
-          <p>Quando você digita <code>https://www.google.com</code> no navegador, acontece:</p>
-          <div class="code-block">
-<span class="code-number">1.</span> Seu navegador envia uma <span class="code-keyword">requisição HTTP</span>
-<span class="code-number">2.</span> O pedido viaja pela internet até o servidor
-<span class="code-number">3.</span> O servidor processa e envia uma <span class="code-keyword">resposta HTTP</span>
-<span class="code-number">4.</span> O navegador recebe HTML, CSS e JavaScript
-<span class="code-number">5.</span> O navegador "monta" a página que você vê!
-
-<span class="code-comment">// Exemplo de requisição HTTP:</span>
-GET /pagina.html HTTP/1.1
-Host: www.exemplo.com
-
-<span class="code-comment">// Resposta do servidor:</span>
-HTTP/1.1 <span class="code-number">200</span> OK
-Content-Type: text/html
-&lt;html&gt;...&lt;/html&gt;
-          </div>
-          <h3>🌊 Cabos Submarinos</h3>
-          <p>95% dos dados internacionais viajam por <strong>cabos de fibra óptica no fundo do oceano</strong>, não por satélites! Esses cabos têm a grossura de uma mangueira de jardim e transportam dados na velocidade da luz.</p>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O primeiro cabo telegráfico submarino foi instalado em 1858 entre Inglaterra e EUA. Levava 16 horas para enviar uma mensagem. Hoje, um cabo de fibra óptica transmite terabytes por segundo!
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "O WiFi é a internet ou apenas uma conexão sem fio?",
-            options: ["É a internet", "É uma ponte sem fio entre roteador e dispositivo", "É um cabo", "É um servidor"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Por onde viajam 95% dos dados internacionais?",
-            options: ["Satélites", "Cabos submarinos de fibra óptica", "Ondas de rádio", "Torres de celular"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "O que acontece quando você digita um site no navegador?",
-            options: [
-              "O site aparece magicamente",
-              "Uma requisição HTTP é enviada ao servidor que responde com a página",
-              "O WiFi cria a página",
-              "O cabo submarino envia o site diretamente"
-            ],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "O código de resposta HTTP '200 OK' significa:",
-            options: ["Erro no servidor", "Página não encontrada", "Sucesso — tudo OK", "Acesso negado"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Em quais frequências o WiFi opera?",
-            options: ["1 GHz e 10 GHz", "2.4 GHz e 5 GHz", "100 MHz e 200 MHz", "10 kHz e 20 kHz"],
-            correct: 1,
-            xp: 25
-          }
+        id: 40, title: "Git: Versionamento", category: "tech", icon: " ", description: "Controle de versão de código.", requires: 39, steps: [
+          { type: "theory", title: "Git", content: "<p>Salva o histórico de alterações do projeto.</p>" },
+          { type: "exercise", question: "Comando para salvar:", options: ["git commit", "git push"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Repositório remoto famoso:", options: ["GitHub", "GitLab"], correct: 0, xp: 25 }
         ]
       },
-
-      // LEVEL 11: COMO FUNCIONA UM SITE
       {
-        id: 11,
-        title: "Como Funciona um Site",
-        category: "tech",
-        icon: "📄",
-        description: "Entenda HTML, CSS e JavaScript — a tríade que cria toda página web.",
-        requires: 10,
-        steps: [
-          {
-            type: "theory",
-            title: "A Tríade da Web: HTML + CSS + JavaScript",
-            content: `
-          <p>Toda página que você vê na internet é construída com três tecnologias fundamentais:</p>
-          <div class="highlight">
-            <p>📌 <strong>HTML</strong> = Estrutura (o esqueleto)<br>
-            <strong>CSS</strong> = Estilo (a roupa/maquiagem)<br>
-            <strong>JavaScript</strong> = Comportamento (os músculos/movimento)</p>
-          </div>
-          <h3>🦴 HTML — Estrutura</h3>
-          <p>O HTML usa <strong>tags</strong> para definir o conteúdo:</p>
-          <div class="code-block">
-&lt;<span class="code-keyword">h1</span>&gt;Olá, AndragovBr!&lt;/<span class="code-keyword">h1</span>&gt;
-&lt;<span class="code-keyword">p</span>&gt;Este é um parágrafo.&lt;/<span class="code-keyword">p</span>&gt;
-&lt;<span class="code-keyword">button</span>&gt;Clique aqui&lt;/<span class="code-keyword">button</span>&gt;
-          </div>
-          <h3>🎨 CSS — Estilo</h3>
-          <p>O CSS define cores, tamanhos, posições:</p>
-          <div class="code-block">
-<span class="code-keyword">h1</span> {
-    <span class="code-func">color</span>: <span class="code-string">blue</span>;
-    <span class="code-func">font-size</span>: <span class="code-number">32px</span>;
-}
-<span class="code-keyword">button</span> {
-    <span class="code-func">background</span>: <span class="code-string">#6C63FF</span>;
-    <span class="code-func">border-radius</span>: <span class="code-number">10px</span>;
-}
-          </div>
-          <h3>⚡ JavaScript — Comportamento</h3>
-          <p>O JavaScript torna a página interativa:</p>
-          <div class="code-block">
-<span class="code-keyword">document</span>.<span class="code-func">querySelector</span>(<span class="code-string">'button'</span>)
-  .<span class="code-func">addEventListener</span>(<span class="code-string">'click'</span>, () => {
-    <span class="code-func">alert</span>(<span class="code-string">'Você clicou!'</span>);
-  });
-          </div>
-          <h3>Como funciona o fluxo completo:</h3>
-          <div class="diagram">
-1. Você digita: www.exemplo.com
-2. DNS encontra o servidor: 192.168.1.1
-3. Navegador envia requisição HTTP GET
-4. Servidor responde com HTML+CSS+JS
-5. Navegador RENDERIZA a página:
-   → HTML cria a estrutura
-   → CSS aplica o visual
-   → JavaScript adiciona interatividade
-6. Você interage com a página!
-          </div>
-          <div class="fun-fact">
-            <strong>💡 Curiosidade:</strong> O primeiro site da história foi criado por Tim Berners-Lee em 1991 no CERN. Ainda está online! Ele era apenas texto com links.
-          </div>
-        `
-          },
-          {
-            type: "exercise",
-            question: "Qual tecnologia define a estrutura de uma página web?",
-            options: ["CSS", "JavaScript", "HTML", "Python"],
-            correct: 2,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual tecnologia é responsável pelo visual (cores, fontes) de um site?",
-            options: ["HTML", "CSS", "JavaScript", "HTTP"],
-            correct: 1,
-            xp: 15
-          },
-          {
-            type: "exercise",
-            question: "Qual tecnologia torna um site interativo (botões que funcionam, animações)?",
-            options: ["HTML", "CSS", "JavaScript", "DNS"],
-            correct: 2,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "O que faz o DNS quando você digita um site?",
-            options: ["Mostra a página", "Traduz o nome do site para um endereço IP numérico", "Cria o site", "Conecta ao WiFi"],
-            correct: 1,
-            xp: 20
-          },
-          {
-            type: "exercise",
-            question: "Na analogia HTML=CSS=JS, o JavaScript representa:",
-            options: ["O esqueleto", "A roupa", "Os músculos/movimento", "O cérebro"],
-            correct: 2,
-            xp: 25
-          }
+        id: 41, title: "API: REST", category: "tech", icon: " ", description: "Comunicação entre sistemas.", requires: 40, steps: [
+          { type: "theory", title: "API REST", content: "<p>Usa HTTP (GET, POST, PUT, DELETE) para trocar dados JSON.</p>" },
+          { type: "exercise", question: "Verbo para buscar dados:", options: ["GET", "POST"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Formato comum de dados:", options: ["JSON", "XML"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 42, title: "Redes: Modelo OSI", category: "tech", icon: " ", description: "Camadas de rede.", requires: 41, steps: [
+          { type: "theory", title: "OSI", content: "<p>7 camadas: Física, Enlace, Rede, Transporte, Sessão, Apresentação, Aplicação.</p>" },
+          { type: "exercise", question: "Quantas camadas?", options: ["7", "5"], correct: 0, xp: 25 },
+          { type: "exercise", question: "IP fica na camada de:", options: ["Rede", "Aplicação"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 43, title: "Redes: Protocolo TCP/IP", category: "tech", icon: " ", description: "Base da Internet.", requires: 42, steps: [
+          { type: "theory", title: "TCP/IP", content: "<p>TCP garante entrega, IP endereça.</p>" },
+          { type: "exercise", question: "IP serve para:", options: ["Endereçar", "Garantir entrega"], correct: 0, xp: 25 },
+          { type: "exercise", question: "TCP é confiável?", options: ["Sim", "Não"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 44, title: "Linux: Terminal", category: "tech", icon: " ", description: "Comandos básicos.", requires: 43, steps: [
+          { type: "theory", title: "Terminal", content: "<p>ls (lista), cd (entra), mkdir (cria pasta).</p>" },
+          { type: "exercise", question: "Comando para listar arquivos:", options: ["ls", "cd"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Comando para mudar de diretório:", options: ["cd", "ls"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 45, title: "DevOps: Docker", category: "tech", icon: " ", description: "Contêineres.", requires: 44, steps: [
+          { type: "theory", title: "Docker", content: "<p>Empacota aplicação e dependências para rodar em qualquer lugar.</p>" },
+          { type: "exercise", question: "Unidade básica do Docker:", options: ["Contêiner", "Máquina Virtual"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Arquivo de configuração:", options: ["Dockerfile", "Dockerrun"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 46, title: "IA: Machine Learning", category: "tech", icon: " ", description: "Aprendizado de máquina.", requires: 45, steps: [
+          { type: "theory", title: "ML", content: "<p>Algoritmos que aprendem com dados.</p>" },
+          { type: "exercise", question: "Supervisionado precisa de:", options: ["Dados rotulados", "Sem rótulos"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Exemplo de uso:", options: ["Reconhecimento de imagem", "Calculadora"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 47, title: "IA: Redes Neurais", category: "tech", icon: " ", description: "Inspiração no cérebro.", requires: 46, steps: [
+          { type: "theory", title: "Redes Neurais", content: "<p>Camadas de neurônios artificiais (input, hidden, output).</p>" },
+          { type: "exercise", question: "Unidade básica:", options: ["Neurônio", "Pixel"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Deep Learning usa:", options: ["Muitas camadas", "Poucas camadas"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 48, title: "Blockchain", category: "tech", icon: " ", description: "Livro razão distribuído.", requires: 47, steps: [
+          { type: "theory", title: "Blockchain", content: "<p>Dados imutáveis em blocos encadeados.</p>" },
+          { type: "exercise", question: "Característica principal:", options: ["Imutabilidade", "Centralização"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Criptomoeda famosa:", options: ["Bitcoin", "Real"], correct: 0, xp: 25 }
+        ]
+      },
+      {
+        id: 49, title: "Ética em TI", category: "tech", icon: " ", description: "Responsabilidade digital.", requires: 48, steps: [
+          { type: "theory", title: "Ética", content: "<p>LGPD, privacidade de dados e uso responsável da IA.</p>" },
+          { type: "exercise", question: "LGPD protege:", options: ["Dados pessoais", "Empresas"], correct: 0, xp: 25 },
+          { type: "exercise", question: "Vazar dados é:", options: ["Crime", "Aceitável"], correct: 0, xp: 25 }
         ]
       }
     ];
 
     // ==================== BADGES ====================
     const badgesData = [
-      { id: "first_step", name: "Primeiro Passo", icon: "👣", condition: () => GameState.totalExercises >= 1 },
-      { id: "math_baby", name: "Matemático Iniciante", icon: "🔢", condition: () => GameState.completedLevels[0] },
-      { id: "math_sub", name: "Subtração Master", icon: "➖", condition: () => GameState.completedLevels[1] },
-      { id: "math_mult", name: "Multiplicador", icon: "✖️", condition: () => GameState.completedLevels[2] },
-      { id: "math_div", name: "Divisor Supremo", icon: "➗", condition: () => GameState.completedLevels[3] },
-      { id: "rule3", name: "Regra de Três Pro", icon: "📐", condition: () => GameState.completedLevels[4] },
-      { id: "coder_vars", name: "Variável Explorer", icon: "📦", condition: () => GameState.completedLevels[5] },
-      { id: "coder_if", name: "Decisor Lógico", icon: "🔀", condition: () => GameState.completedLevels[6] },
-      { id: "coder_loop", name: "Mestre dos Loops", icon: "🔄", condition: () => GameState.completedLevels[7] },
-      { id: "history", name: "Historiador Digital", icon: "🖥️", condition: () => GameState.completedLevels[8] },
-      { id: "os_master", name: "SO Expert", icon: "⚙️", condition: () => GameState.completedLevels[9] },
-      { id: "internet", name: "Navegador Pro", icon: "🌐", condition: () => GameState.completedLevels[10] },
-      { id: "web_dev", name: "Web Developer", icon: "📄", condition: () => GameState.completedLevels[11] },
-      { id: "all_complete", name: "Gênio Completo", icon: "🧠", condition: () => Object.keys(GameState.completedLevels).length === levels.length },
-      { id: "streak_5", name: "Em Chamas!", icon: "🔥", condition: () => GameState.streak >= 5 },
-      { id: "streak_10", name: "Imparável!", icon: "💥", condition: () => GameState.streak >= 10 },
-      { id: "xp_500", name: "500 XP", icon: "⭐", condition: () => GameState.xp >= 500 },
-      { id: "xp_1000", name: "1000 XP", icon: "🌟", condition: () => GameState.xp >= 1000 },
-      { id: "perfect", name: "Nível Perfeito", icon: "💎", condition: () => Object.values(GameState.completedLevels).some(s => s.stars === 3) },
-      { id: "speed", name: "Velocista", icon: "⚡", condition: () => GameState.correctExercises >= 20 }
+      { id: "first", name: "Iniciante", icon: " ", condition: () => GameState.totalExercises >= 1 },
+      { id: "math1", name: "Básico", icon: " ", condition: () => GameState.completedLevels[4] },
+      { id: "logic1", name: "Coder", icon: " ", condition: () => GameState.completedLevels[7] },
+      { id: "tech1", name: "Tech", icon: " ", condition: () => GameState.completedLevels[11] },
+      { id: "hs_math", name: "Ensino Médio", icon: " ", condition: () => GameState.completedLevels[23] },
+      { id: "adv_math", name: "Cálculo", icon: "∫", condition: () => GameState.completedLevels[34] },
+      { id: "poo", name: "Orientado a Objetos", icon: " ", condition: () => GameState.completedLevels[37] },
+      { id: "devops", name: "DevOps", icon: " ", condition: () => GameState.completedLevels[45] },
+      { id: "ai", name: "Expert em IA", icon: " ", condition: () => GameState.completedLevels[47] },
+      { id: "master", name: "Gênio Supremo", icon: " ", condition: () => Object.keys(GameState.completedLevels).length === levels.length }
     ];
 
-    // ==================== INITIALIZATION ====================
+    // ==================== LOGIC ====================
     let currentLevel = null;
     let currentStep = 0;
     let levelCorrect = 0;
     let levelTotal = 0;
 
-    function init() {
-      loadState();
+    async function init() {
       initParticles();
-      const savedName = localStorage.getItem('andragovbr_name');
-      if (savedName) {
-        GameState.playerName = savedName;
+      const savedData = await loadFromDB();
+      if (savedData) {
+        Object.assign(GameState, savedData);
         showScreen('mapScreen');
         updateUI();
       }
     }
 
-    function loadState() {
-      const saved = localStorage.getItem('andragovbr_state');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        Object.assign(GameState, parsed);
-      }
+    async function saveState() {
+      await saveToDB(GameState);
     }
 
-    function saveState() {
-      localStorage.setItem('andragovbr_state', JSON.stringify(GameState));
-      localStorage.setItem('andragovbr_name', GameState.playerName);
-    }
-
-    // ==================== SCREEN MANAGEMENT ====================
-    function showScreen(screenId) {
+    function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-
-      if (screenId === 'mapScreen') {
-        renderLevelMap();
-      } else if (screenId === 'badgesScreen') {
-        renderBadges();
-      }
-
+      document.getElementById(id).classList.add('active');
+      if (id === 'mapScreen') { renderLevelMap(); checkCertificateAvailability(); }
+      if (id === 'badgesScreen') renderBadges();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ==================== START GAME ====================
-    function startGame() {
+    async function startGame() {
       const name = document.getElementById('playerNameInput').value.trim();
-      if (!name) {
-        showToast('⚠️ Digite seu nome para começar!');
-        return;
-      }
+      if (!name) { showToast(' Digite seu nome!'); return; }
       GameState.playerName = name;
-      saveState();
+      await saveState();
       showScreen('mapScreen');
       updateUI();
-      showToast(`🎉 Bem-vindo(a), ${name}!`);
+      showToast(` Bem-vindo, ${name}!`);
     }
 
-    // ==================== UPDATE UI ====================
     function updateUI() {
       document.getElementById('mainHeader').style.display = 'flex';
       document.getElementById('totalXP').textContent = GameState.xp;
       document.getElementById('streak').textContent = GameState.streak;
-      document.getElementById('playerLevel').textContent = GameState.level;
+      document.getElementById('playerLevel').textContent = Math.floor(GameState.xp / 100) + 1;
       document.getElementById('playerName').textContent = GameState.playerName;
 
-      // Calculate player level based on XP
-      GameState.level = Math.floor(GameState.xp / 100) + 1;
-      document.getElementById('playerLevel').textContent = GameState.level;
-
-      // Global progress
-      const totalLevels = levels.length;
-      const completed = Object.keys(GameState.completedLevels).length;
-      const pct = (completed / totalLevels) * 100;
-      document.getElementById('globalProgress').style.width = pct + '%';
+      const total = levels.length;
+      const done = Object.keys(GameState.completedLevels).length;
+      document.getElementById('globalProgress').style.width = (done / total * 100) + '%';
     }
 
-    // ==================== LEVEL MAP ====================
     function renderLevelMap(filter = 'all') {
       const map = document.getElementById('levelMap');
       map.innerHTML = '';
-
-      levels.forEach((level, idx) => {
-        if (filter !== 'all' && level.category !== filter) return;
-
-        const isUnlocked = GameState.unlockedLevels.includes(idx);
-        const isCompleted = GameState.completedLevels[idx] !== undefined;
-        const completedData = GameState.completedLevels[idx];
+      levels.forEach((lvl, idx) => {
+        if (filter !== 'all' && lvl.category !== filter) return;
+        const unlocked = GameState.unlockedLevels.includes(idx);
+        const completed = GameState.completedLevels[idx];
 
         const card = document.createElement('div');
-        card.className = `level-card ${isCompleted ? 'completed' : ''} ${!isUnlocked ? 'locked' : ''}`;
-        card.setAttribute('data-category', level.category);
+        card.className = `level-card ${completed ? 'completed' : ''} ${!unlocked ? 'locked' : ''}`;
+        if (unlocked) card.onclick = () => openLevel(idx);
 
-        if (isUnlocked) {
-          card.onclick = () => openLevel(idx);
-        }
-
-        let starsHTML = '';
-        for (let i = 1; i <= 3; i++) {
-          starsHTML += `<span class="star ${completedData && completedData.stars >= i ? 'earned' : ''}">★</span>`;
-        }
+        let stars = '';
+        for (let i = 1; i <= 3; i++) stars += `<span style="color:${completed && completed.stars >= i ? 'var(--gold)' : 'rgba(255,255,255,0.1)'}">★</span>`;
 
         card.innerHTML = `
-      ${!isUnlocked ? '<span class="lock-icon">🔒</span>' : ''}
-      <div class="level-number">${level.icon}</div>
-      <h3>Nível ${idx + 1}: ${level.title}</h3>
-      <p>${level.description}</p>
-      <div class="level-stars">${starsHTML}</div>
-      ${isCompleted ? `<p style="font-size:0.75rem; color: var(--success); margin-top:5px;">✅ Completo (+${completedData.xp || 0} XP)</p>` : ''}
-    `;
-
+          ${!unlocked ? '<span class="lock-icon"> </span>' : ''}
+          <div class="level-number">${lvl.icon}</div>
+          <h3>${idx + 1}. ${lvl.title}</h3>
+          <p>${lvl.description}</p>
+          <div style="margin-top:10px">${stars}</div>
+        `;
         map.appendChild(card);
       });
     }
@@ -2303,330 +1331,190 @@ Content-Type: text/html
       renderLevelMap(cat);
     }
 
-    // ==================== OPEN LEVEL ====================
     function openLevel(idx) {
       currentLevel = idx;
       currentStep = 0;
       levelCorrect = 0;
       levelTotal = 0;
-
-      const level = levels[idx];
-      document.getElementById('lessonTitle').textContent = `Nível ${idx + 1}: ${level.title}`;
+      document.getElementById('lessonTitle').textContent = `Nível ${idx + 1}: ${levels[idx].title}`;
       renderStep();
       showScreen('lessonScreen');
-      updateUI();
     }
 
-    // ==================== RENDER STEP ====================
     function renderStep() {
-      const level = levels[currentLevel];
-      const step = level.steps[currentStep];
-      const totalSteps = level.steps.length;
-
-      // Progress
-      document.getElementById('lessonProgress').textContent = `${currentStep + 1}/${totalSteps}`;
-
-      // Step indicator
-      const indicator = document.getElementById('stepIndicator');
-      indicator.innerHTML = '';
-      for (let i = 0; i < totalSteps; i++) {
-        const dot = document.createElement('div');
-        dot.className = `step-dot ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'completed' : ''}`;
-        indicator.appendChild(dot);
-      }
+      const lvl = levels[currentLevel];
+      const step = lvl.steps[currentStep];
+      document.getElementById('lessonProgress').textContent = `${currentStep + 1}/${lvl.steps.length}`;
 
       if (step.type === 'theory') {
-        renderTheory(step);
-      } else if (step.type === 'exercise') {
-        renderExercise(step);
-      }
-
-      // Nav buttons
-      const nav = document.getElementById('exerciseNav');
-      nav.innerHTML = '';
-
-      if (currentStep > 0) {
-        const prevBtn = document.createElement('button');
-        prevBtn.className = 'btn btn-secondary btn-small';
-        prevBtn.textContent = '← Anterior';
-        prevBtn.onclick = () => { currentStep--; renderStep(); };
-        nav.appendChild(prevBtn);
-      }
-
-      if (step.type === 'theory') {
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'btn btn-primary btn-small';
-        nextBtn.textContent = 'Próximo →';
-        nextBtn.onclick = () => { currentStep++; renderStep(); };
-        nav.appendChild(nextBtn);
+        document.getElementById('lessonContent').innerHTML = `<div class="lesson-content"><h2>${step.title}</h2>${step.content}</div>`;
+        document.getElementById('exerciseArea').innerHTML = '';
+        document.getElementById('exerciseNav').innerHTML = `<button class="btn btn-primary btn-small" onclick="nextStep()">Próximo →</button>`;
+      } else {
+        document.getElementById('lessonContent').innerHTML = '';
+        levelTotal++;
+        document.getElementById('exerciseArea').innerHTML = `
+          <div class="exercise-area">
+            <div class="exercise-question">${step.question}</div>
+            <div class="exercise-options">
+              ${step.options.map((opt, i) => `<button class="option-btn" onclick="checkAnswer(${i}, ${step.correct}, ${step.xp})">${opt}</button>`).join('')}
+            </div>
+            <div class="feedback" id="feedback"></div>
+          </div>
+        `;
+        document.getElementById('exerciseNav').innerHTML = '';
       }
     }
 
-    // ==================== RENDER THEORY ====================
-    function renderTheory(step) {
-      const content = document.getElementById('lessonContent');
-      content.innerHTML = `
-    <div class="lesson-content">
-      <h2>${step.title}</h2>
-      ${step.content}
-    </div>
-  `;
-      document.getElementById('exerciseArea').innerHTML = '';
+    function nextStep() {
+      currentStep++;
+      if (currentStep < levels[currentLevel].steps.length) renderStep();
+      else completeLevel();
     }
 
-    // ==================== RENDER EXERCISE ====================
-    function renderExercise(step) {
-      document.getElementById('lessonContent').innerHTML = '';
+    async function checkAnswer(sel, cor, xp) {
+      const btns = document.querySelectorAll('.option-btn');
+      const fb = document.getElementById('feedback');
+      if (btns[0].disabled) return;
 
-      const area = document.getElementById('exerciseArea');
-      levelTotal++;
-
-      area.innerHTML = `
-    <div class="exercise-area">
-      <h3>📝 Exercício ${currentStep} de ${levels[currentLevel].steps.length}</h3>
-      <div class="exercise-question">${step.question}</div>
-      <div class="exercise-options" id="exerciseOptions">
-        ${step.options.map((opt, i) => `
-          <button class="option-btn" onclick="checkAnswer(${i}, ${step.correct}, ${step.xp})">${opt}</button>
-        `).join('')}
-      </div>
-      <div class="feedback" id="feedback"></div>
-    </div>
-  `;
-    }
-
-    // ==================== CHECK ANSWER ====================
-    function checkAnswer(selected, correct, xp) {
-      const options = document.querySelectorAll('.option-btn');
-      const feedback = document.getElementById('feedback');
-      const allDisabled = options[0].disabled;
-
-      if (allDisabled) return;
-
-      options.forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === correct) btn.classList.add('correct');
-        if (i === selected && i !== correct) btn.classList.add('wrong');
+      btns.forEach((b, i) => {
+        b.disabled = true;
+        if (i === cor) b.classList.add('correct');
+        if (i === sel && i !== cor) b.classList.add('wrong');
       });
 
       GameState.totalExercises++;
-
-      if (selected === correct) {
+      if (sel === cor) {
         GameState.correctExercises++;
         GameState.xp += xp;
         GameState.streak++;
         levelCorrect++;
-        feedback.className = 'feedback correct show';
-        feedback.innerHTML = `✅ Correto! +${xp} XP | 🔥 Sequência: ${GameState.streak}`;
-        showXpGain(xp);
+        fb.className = 'feedback correct show';
+        fb.textContent = ` Correto! +${xp} XP`;
       } else {
         GameState.streak = 0;
-        feedback.className = 'feedback wrong show';
-        feedback.innerHTML = `❌ Incorreto. A resposta certa é: <strong>${options[correct].textContent}</strong>`;
+        fb.className = 'feedback wrong show';
+        fb.textContent = ` Errado. Resposta: ${btns[cor].textContent}`;
       }
-
-      saveState();
+      await saveState();
       updateUI();
-      checkBadges();
-
-      // Auto advance after delay
-      setTimeout(() => {
-        currentStep++;
-        if (currentStep < levels[currentLevel].steps.length) {
-          renderStep();
-        } else {
-          completeLevel();
-        }
-      }, 1800);
+      setTimeout(nextStep, 1500);
     }
 
-    // ==================== COMPLETE LEVEL ====================
-    function completeLevel() {
-      const level = levels[currentLevel];
-      const totalExercises = level.steps.filter(s => s.type === 'exercise').length;
-      const accuracy = levelCorrect / totalExercises;
-
+    async function completeLevel() {
+      const totalQ = levels[currentLevel].steps.filter(s => s.type === 'exercise').length;
+      const acc = levelCorrect / totalQ;
       let stars = 1;
-      if (accuracy >= 0.6) stars = 2;
-      if (accuracy >= 0.9) stars = 3;
+      if (acc >= 0.6) stars = 2;
+      if (acc >= 0.9) stars = 3;
 
-      const xpEarned = level.steps.filter(s => s.type === 'exercise').reduce((sum, s) => sum + s.xp, 0);
-      const finalXp = stars === 3 ? xpEarned + 50 : stars === 2 ? xpEarned + 25 : xpEarned;
+      const xpBase = levels[currentLevel].steps.filter(s => s.type === 'exercise').reduce((a, b) => a + b.xp, 0);
+      const xpFinal = xpBase + (stars === 3 ? 50 : stars === 2 ? 25 : 0);
 
-      // Save completion
-      GameState.completedLevels[currentLevel] = { stars, xp: finalXp };
-
-      // Unlock next level
-      const nextLevel = currentLevel + 1;
-      if (nextLevel < levels.length && !GameState.unlockedLevels.includes(nextLevel)) {
-        GameState.unlockedLevels.push(nextLevel);
+      GameState.completedLevels[currentLevel] = { stars, xp: xpFinal };
+      if (currentLevel + 1 < levels.length && !GameState.unlockedLevels.includes(currentLevel + 1)) {
+        GameState.unlockedLevels.push(currentLevel + 1);
       }
-
-      saveState();
+      await saveState();
       updateUI();
-      checkBadges();
 
-      // Show modal
-      const modal = document.getElementById('levelCompleteModal');
-      document.getElementById('modalStars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
-      document.getElementById('modalPoints').textContent = `+${finalXp} XP ganhos!`;
-      document.getElementById('modalMessage').textContent = accuracy >= 0.9
-        ? '🏆 Perfeito! Você dominou este nível!'
-        : accuracy >= 0.6
-          ? '👏 Muito bem! Continue praticando!'
-          : '💪 Continue tentando, você está melhorando!';
-
-      modal.classList.add('show');
-
-      // Confetti for 2+ stars
-      if (stars >= 2) {
-        launchConfetti();
-      }
+      document.getElementById('modalStars').textContent = ' '.repeat(stars) + '☆'.repeat(3 - stars);
+      document.getElementById('modalPoints').textContent = `+${xpFinal} XP`;
+      document.getElementById('modalMessage').textContent = acc >= 0.9 ? 'Perfeito!' : 'Bom trabalho!';
+      document.getElementById('levelCompleteModal').classList.add('show');
     }
 
     function closeModal() {
       document.getElementById('levelCompleteModal').classList.remove('show');
       showScreen('mapScreen');
-      updateUI();
-    }
-
-    // ==================== BADGES ====================
-    function checkBadges() {
-      badgesData.forEach(badge => {
-        if (!GameState.badges.includes(badge.id) && badge.condition()) {
-          GameState.badges.push(badge.id);
-          showToast(`🏅 Nova conquista: ${badge.icon} ${badge.name}!`);
-        }
-      });
-      saveState();
     }
 
     function renderBadges() {
       const grid = document.getElementById('badgesGrid');
       grid.innerHTML = '';
-
-      badgesData.forEach(badge => {
-        const earned = GameState.badges.includes(badge.id);
-        const item = document.createElement('div');
-        item.className = `badge-item ${earned ? 'earned' : 'locked'}`;
-        item.innerHTML = `
-      <div class="badge-icon">${badge.icon}</div>
-      <div class="badge-name">${badge.name}</div>
-    `;
-        grid.appendChild(item);
+      badgesData.forEach(b => {
+        const earned = b.condition();
+        const div = document.createElement('div');
+        div.className = `badge-item ${earned ? 'earned' : 'locked'}`;
+        div.innerHTML = `<div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div>`;
+        grid.appendChild(div);
       });
     }
 
-    // ==================== EFFECTS ====================
     function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    function showXpGain(amount) {
-      const el = document.createElement('div');
-      el.className = 'xp-gain';
-      el.textContent = `+${amount} XP`;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1500);
-    }
-
-    function launchConfetti() {
-      const container = document.getElementById('confettiContainer');
-      container.innerHTML = '';
-      const colors = ['#6C63FF', '#FF6584', '#00C853', '#FFB300', '#FF1744', '#FFD700'];
-
-      for (let i = 0; i < 80; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = (Math.random() * 10 + 5) + 'px';
-        confetti.style.height = (Math.random() * 10 + 5) + 'px';
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        confetti.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-        confetti.style.animationDelay = (Math.random() * 0.5) + 's';
-        container.appendChild(confetti);
-      }
-
-      setTimeout(() => container.innerHTML = '', 4000);
-    }
-
-    // ==================== PARTICLES ====================
     function initParticles() {
-      const canvas = document.getElementById('particles-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+      const c = document.getElementById('particles-canvas');
+      const ctx = c.getContext('2d');
+      let p = [];
+      function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
       resize();
       window.addEventListener('resize', resize);
-
-      for (let i = 0; i < 50; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.3 + 0.1
+      for (let i = 0; i < 50; i++) p.push({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 });
+      function anim() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        p.forEach(pt => {
+          pt.x += pt.vx; pt.y += pt.vy;
+          if (pt.x < 0) pt.x = c.width; if (pt.x > c.width) pt.x = 0;
+          if (pt.y < 0) pt.y = c.height; if (pt.y > c.height) pt.y = 0;
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2); ctx.fillStyle = 'rgba(108,99,255,0.3)'; ctx.fill();
         });
+        requestAnimationFrame(anim);
       }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0) p.x = canvas.width;
-          if (p.x > canvas.width) p.x = 0;
-          if (p.y < 0) p.y = canvas.height;
-          if (p.y > canvas.height) p.y = 0;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(108, 99, 255, ${p.opacity})`;
-          ctx.fill();
-        });
-
-        // Draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(108, 99, 255, ${0.05 * (1 - dist / 120)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-
-        requestAnimationFrame(animate);
-      }
-      animate();
+      anim();
     }
 
-    // ==================== KEYBOARD ====================
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const nameInput = document.getElementById('playerNameInput');
-        if (document.activeElement === nameInput) {
-          startGame();
-        }
-      }
-    });
+    // ==================== CERTIFICATE LOGIC ====================
+    function checkCertificateAvailability() {
+      const totalLevels = levels.length;
+      const completedCount = Object.keys(GameState.completedLevels).length;
+      const btn = document.getElementById('btnCertificate');
 
-    // ==================== START ====================
+      if (completedCount === totalLevels && totalLevels > 0) {
+        btn.style.display = 'inline-flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
+
+    function openCertificateModal() {
+      document.getElementById('certNameInput').value = GameState.playerName;
+      document.getElementById('certNameModal').classList.add('show');
+    }
+
+    function generatePDF() {
+      const name = document.getElementById('certNameInput').value.trim();
+      if (!name) { alert('Por favor, digite o nome.'); return; }
+
+      // Update Certificate Content
+      document.getElementById('cert-final-name').textContent = name;
+      const today = new Date();
+      document.getElementById('cert-date').textContent = today.toLocaleDateString('pt-BR');
+
+      // Hide Modal
+      document.getElementById('certNameModal').classList.remove('show');
+      showToast(' Gerando seu certificado...');
+
+      // Generate PDF
+      const element = document.getElementById('certificate-to-print');
+      const opt = {
+        margin: 0,
+        filename: `Certificado_AndragovBr_${name.replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        showToast(' Certificado baixado com sucesso!');
+      });
+    }
+
     init();
   </script>
 </body>
