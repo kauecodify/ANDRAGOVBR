@@ -1,4 +1,4 @@
-<img width="300" height="300" alt="logo" src="https://github.com/user-attachments/assets/1e007895-3b24-4301-a532-d753d52775ea" />
+<img width="300" height="300" alt="andragov" src="https://github.com/user-attachments/assets/efe40090-1feb-4593-8263-9d918f15e6b7" />
 
 # ANDRAGOVBR
 
